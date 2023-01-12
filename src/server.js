@@ -7,17 +7,29 @@ const handleget = (req, res) => {
 };
 
 const Mware = (req, res, next) => {
-  console.log(`이자식의 목적지는 ${req.url}`);
+  console.log(`${req.method} ${req.url}`);
   next();
 };
 
-const handlespan = (req, res) => {
+const ProtectMware = (req, res, next) => {
+  const url = req.url;
+  if (url === "/protect") {
+    return res.send("<h1>접근 금지에오</h1>");
+  } else {
+    console.log("지나가도됨");
+    next();
+  }
+};
+
+const handleProtect = (req, res) => {
   return res.send("how cool is that?");
 };
 
-app.get("/", Mware, handleget);
-app.get("/span", handlespan);
+app.use(Mware);
+app.use(ProtectMware);
+app.get("/", handleget);
+app.get("/protect", handleProtect);
 
-const handleListening = () => console.log("bbb");
+const handleListening = () => console.log("이것은 Node.js");
 app.listen(PORT, handleListening);
 // app.listen(4000,  () => console.log("aaa"););
