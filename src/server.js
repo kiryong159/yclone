@@ -1,34 +1,25 @@
 import express from "express";
+import morgan from "morgan";
+
 const PORT = "4000";
 const app = express();
+app.use(morgan("dev"));
 
-const handleget = (req, res) => {
-  return res.send("<h1>hello this is h1</h1>");
+const GLrouter = express.Router();
+const home = (req, res) => res.send("home");
+GLrouter.get("/", home);
+const Videorouter = express.Router();
+const videowatch = (req, res) => res.send("watch");
+Videorouter.get("/watch", videowatch);
+const Userrouter = express.Router();
+const useredit = (req, res) => {
+  return res.send("edit");
 };
+Userrouter.get("/edit", useredit);
 
-const Mware = (req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-};
-
-const ProtectMware = (req, res, next) => {
-  const url = req.url;
-  if (url === "/protect") {
-    return res.send("<h1>접근 금지에오</h1>");
-  } else {
-    console.log("지나가도됨");
-    next();
-  }
-};
-
-const handleProtect = (req, res) => {
-  return res.send("how cool is that?");
-};
-
-app.use(Mware);
-app.use(ProtectMware);
-app.get("/", handleget);
-app.get("/protect", handleProtect);
+app.use("/", GLrouter);
+app.use("/video", Videorouter);
+app.use("/user", Userrouter);
 
 const handleListening = () => console.log("이것은 Node.js");
 app.listen(PORT, handleListening);
