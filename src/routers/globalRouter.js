@@ -1,9 +1,10 @@
 import express from "express";
+import { home } from "../controller/videoController";
+import { join } from "../controller/userController";
 
 const GLrouter = express.Router();
 
-const home = (req, res) => res.send("home");
-
 GLrouter.get("/", home);
+GLrouter.get("/join", join);
 
 export default GLrouter;
