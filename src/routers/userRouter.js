@@ -9,7 +9,7 @@ const Userrouter = express.Router();
 
 Userrouter.get("/edit", handleUseredit);
 Userrouter.get("/remove", handleUserremove);
-Userrouter.get("/:id", seeUser);
 Userrouter.get("/logout", logout);
+Userrouter.get("/:id", seeUser);
 
 export default Userrouter;
