@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  handleUseredit,
-  handleUserremove,
+  Useredit,
+  Userremove,
   seeUser,
   logout,
 } from "../controller/userController";
 const Userrouter = express.Router();
 
-Userrouter.get("/edit", handleUseredit);
-Userrouter.get("/remove", handleUserremove);
+Userrouter.get("/edit", Useredit);
+Userrouter.get("/remove", Userremove);
 Userrouter.get("/logout", logout);
 Userrouter.get("/:id(\\d+)", seeUser);
 
