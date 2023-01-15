@@ -6,6 +6,7 @@ import Userrouter from "./routers/userRouter";
 
 const PORT = "4000";
 const app = express();
+app.set("view engine", "pug");
 app.use(morgan("dev"));
 
 app.use("/", GLrouter);
