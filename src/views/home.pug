@@ -1,12 +1,16 @@
 extends base.pug
+include mixin/video.pug
 
 
 block contents
     h1 Yclone - Homepage 
     span I love #{potato}
 
-    ul
-        each video in videos 
-            li=video
+    div
+        each potato in videos 
+            +sweetpotato(potato)
         else 
             li sorry not found.
+
+
+

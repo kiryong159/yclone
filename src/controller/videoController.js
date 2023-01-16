@@ -1,5 +1,27 @@
 export const home = (req, res) => {
-  const videos = [1, 2, 3, 4, 5, 6, 7];
+  const videos = [
+    {
+      name: "First video",
+      score: "5",
+      comment: "2",
+      postAt: "5",
+      views: "200",
+    },
+    {
+      name: "second video",
+      score: "4",
+      comment: "1",
+      postAt: "5",
+      views: "440",
+    },
+    {
+      name: "third video",
+      score: "3",
+      comment: "7",
+      postAt: "5",
+      views: "260",
+    },
+  ];
   return res.render("home", {
     pageTitle: "Home",
     potato: "tomato",
