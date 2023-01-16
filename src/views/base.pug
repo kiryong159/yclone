@@ -8,18 +8,5 @@ html(lang="en")
         title #{pageTitle} | Yclone
     body 
         main
-            header
-                if fakeuser.logstate 
-                    small hello #{fakeuser.username}
-            nav
-                
-                ul 
-                    if fakeuser.logstate
-                        li 
-                            a(href="user/logout") logout 
-                    else
-                        li
-                            a(href="/login") login
-
             block contents
             include partials/footer.pug
