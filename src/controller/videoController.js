@@ -36,11 +36,10 @@ export const VideoEdit = (req, res) =>
   res.render("edit", { pageTitle: "Video-Edit" });
 export const seeVideo = (req, res) => {
   const id = req.params.id;
-  // ES6문법으로 작성시 const { id } = req.params; 이렇게도 가능
+  // ES6문법 작성시 >>const {id} = req.params
   const nowvideo = videos[id];
-  return res.render("watch", { pageTitle: `Watching ${nowvideo.name}` });
+  return res.render("watch", { pageTitle: `Watch ${nowvideo.name}` });
 };
-
 export const search = (req, res) => res.send("video search");
 export const deleteVideo = (req, res) =>
   res.send(`deleteVideo #${req.params.id}`);
