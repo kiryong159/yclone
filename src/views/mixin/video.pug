@@ -1,6 +1,7 @@
 mixin sweetpotato(info)
-  h4=info.name
-     ul
+   h4 
+      a(href=`/video/${info.id}`)=info.name 
+   ul
         li #{info.score}/5
         li #{info.comment}Comments.
         li #{info.postAt} minuts Ago.
