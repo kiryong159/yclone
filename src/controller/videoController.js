@@ -1,5 +1,14 @@
+const fakeuser = {
+  username: "nico",
+  logstate: true,
+};
+
 export const home = (req, res) =>
-  res.render("home", { pageTitle: "Home", potato: "tomato" });
+  res.render("home", {
+    pageTitle: "Home",
+    potato: "tomato",
+    fakeuser: fakeuser,
+  });
 export const VideoEdit = (req, res) =>
   res.render("edit", { pageTitle: "Video-Edit" });
 export const seeVideo = (req, res) =>

@@ -4,7 +4,22 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet" href="https://unpkg.com/mvp.css")
         title #{pageTitle} | Yclone
     body 
-        block contents
-        include partials/footer.pug
+        main
+            header
+                if fakeuser.logstate 
+                    small hello #{fakeuser.username}
+            nav
+                
+                ul 
+                    if fakeuser.logstate
+                        li 
+                            a(href="user/logout") logout 
+                    else
+                        li
+                            a(href="/login") login
+
+            block contents
+            include partials/footer.pug
