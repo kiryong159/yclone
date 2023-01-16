@@ -2,3 +2,10 @@ extends base.pug
 
 block contents
   h1 Yclone - Watch Video
+
+  h3 #{nowvideo.views} #{nowvideo.views === 1 ? "view" : "views"}
+
+  h3  #{nowvideo.score}/5
+
+  h2 
+    a(href=`${nowvideo.id}/edit`) Edit video &rarr;
