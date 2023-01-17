@@ -55,6 +55,25 @@ export const watchVideo = (req, res) => {
 };
 
 export const search = (req, res) => res.send("video search");
+
+export const getUpload = (req, res) => {
+  return res.render("upload", { pageTitle: "Upload" });
+};
+
+export const postUpload = (req, res) => {
+  const videoname = req.body.uploadname;
+  console.log(videoname);
+  const newvideo = {
+    name: videoname,
+    score: 3,
+    comment: 2,
+    postAt: "Now",
+    views: 2300,
+    id: videos.length,
+  };
+  videos.push(newvideo);
+  return res.redirect("/");
+};
+
 export const deleteVideo = (req, res) =>
   res.send(`deleteVideo #${req.params.id}`);
-export const upload = (req, res) => res.send("upload");
