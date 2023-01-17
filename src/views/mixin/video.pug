@@ -5,4 +5,4 @@ mixin sweetpotato(info)
         li #{info.score}/5
         li #{info.comment}Comments.
         li #{info.postAt} minuts Ago.
-        li #{info.views} Views.
+        li #{info.views} #{ info.views ===1?"View.":"Views."}

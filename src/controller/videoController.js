@@ -32,14 +32,28 @@ export const home = (req, res) => {
     videos,
   });
 };
-export const VideoEdit = (req, res) =>
-  res.render("edit", { pageTitle: "Video-Edit" });
-export const watchVideo = (req, res) => {
+
+export const VideoGetEdit = (req, res) => {
   const id = req.params.id;
+  const nowvideo = videos[id];
+  return res.render("edit", { pageTitle: `Edit ${nowvideo.name}`, nowvideo });
+};
+
+export const VideoPostEdit = (req, res) => {
+  const { id } = req.params;
+  const nowvideo = videos[id];
+  const Newtitle = req.body.name;
+  videos[id].name = Newtitle;
+  return res.redirect(`/video/${nowvideo.id}`);
+};
+
+export const watchVideo = (req, res) => {
+  const id = req.params.idpotato;
   // ES6문법 작성시 >>const {id} = req.params
   const nowvideo = videos[id];
   return res.render("watch", { pageTitle: `Watch ${nowvideo.name}`, nowvideo });
 };
+
 export const search = (req, res) => res.send("video search");
 export const deleteVideo = (req, res) =>
   res.send(`deleteVideo #${req.params.id}`);
