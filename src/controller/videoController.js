@@ -1,11 +1,16 @@
 import video from "../models/Video";
 
 export const home = (req, res) => {
-  video.find({}, (error, video) => {});
-  return res.render("home", {
-    pageTitle: "Home",
-    potato: "tomato",
+  console.log(1);
+  video.find({}, (error, video) => {
+    console.log(3);
+    return res.render("home", {
+      pageTitle: "Home",
+      potato: "tomato",
+      fakevideos: [],
+    });
   });
+  console.log(2);
 };
 
 export const VideoGetEdit = (req, res) => {
