@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+//몽구즈.셋.(스트릭쿼리가 컨넥트 보다 먼저들어와야함)
+mongoose.set("strictQuery", true);
 
-mongoose.connect("mongodb://127.0.0.1:27017/yclone", {
+mongoose.connect("mongodb+srv://kiryong:1234@yclone.fhkppsh.mongodb.net/test", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-mongoose.set("strictQuery", true);
 
 const db = mongoose.connection;
 
