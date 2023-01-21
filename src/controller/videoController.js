@@ -35,20 +35,22 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
   const videoname = req.body.uploadname;
   const { description, hashtags } = req.body;
-  // 비디오 모델을 여기 ↓사용
-  const video = new Video({
-    title: videoname,
-    description,
-    createdAt: Date.now(),
-    hashtags: hashtags.split(",").map((word) => `#${word}`),
-    meta: {
-      views: 0,
-      rating: 0,
-    },
-  });
-  await video.save();
-  // const video 부분을 await video.create({블라블라}) 가능함
-  return res.redirect("/");
+  const TIMEDIFF = 9 * 60 * 60 * 1000;
+  // 여기 ↓사용  비디오 모델
+  try {
+    await Video.create({
+      title: videoname,
+      description,
+      hashtags: hashtags.split(",").map((word) => `#${word}`),
+      createdAt: Date.now() + TIMEDIFF,
+      // 우분투 인지 아틀라스인지 시간이 UTC로설정 되어있어서 KST+9시간 추가해줬음 그래서 Vidoe.js에 디폴트 안씀
+    });
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    const ERRMSG = error._message;
+    return res.render("upload", { pageTitle: "Upload", ERRMSG });
+  }
 };
 
 export const deleteVideo = (req, res) =>
