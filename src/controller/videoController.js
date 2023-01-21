@@ -1,7 +1,8 @@
-import video from "../models/Video";
+import { now } from "mongoose";
+import Video from "../models/Video";
 
 export const home = async (req, res) => {
-  const videos = await video.find({});
+  const videos = await Video.find({});
   return res.render("home", {
     pageTitle: "Home",
     potato: "tomato",
@@ -31,8 +32,22 @@ export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload" });
 };
 
-export const postUpload = (req, res) => {
+export const postUpload = async (req, res) => {
   const videoname = req.body.uploadname;
+  const { description, hashtags } = req.body;
+  // 비디오 모델을 여기 ↓사용
+  const video = new Video({
+    title: videoname,
+    description,
+    createdAt: Date.now(),
+    hashtags: hashtags.split(",").map((word) => `#${word}`),
+    meta: {
+      views: 0,
+      rating: 0,
+    },
+  });
+  await video.save();
+  // const video 부분을 await video.create({블라블라}) 가능함
   return res.redirect("/");
 };
 
