@@ -1,8 +1,7 @@
 mixin sweetpotato(info)
-  h4 
-      a(href=`/video/${info.id}`)=info.name
-      ul
-        li #{info.score}/5
-        li #{info.comment}Comments.
-        li #{info.postAt} minuts Ago.
-        li #{info.views} #{ info.views ===1?"View.":"Views."}
+  div
+    h4 
+      a(href=`/video/${info.id}`)=info.title
+    p 영상 설명 : #{info.description}.
+    small #{info.createdAt}.
+    hr

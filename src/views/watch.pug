@@ -1,11 +1,11 @@
 extends base.pug 
 
 block contents
-  h1 Yclone - Watch Video
+  h1 #{nowvideo.title} | Yclone - Watch Video
 
-  h3 #{nowvideo.views} #{nowvideo.views === 1 ? "view" : "views"}
+  h3 설명 : #{nowvideo.description}
 
-  h3  #{nowvideo.score}/5
+  small=nowvideo.createdAt
 
   h2 
     a(href=`${nowvideo.id}/edit`) Edit video &rarr;

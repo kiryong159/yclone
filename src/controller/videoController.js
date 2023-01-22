@@ -20,10 +20,12 @@ export const VideoPostEdit = (req, res) => {
   return res.redirect(`/video/${nowvideo.id}`);
 };
 
-export const watchVideo = (req, res) => {
+export const watchVideo = async (req, res) => {
   const id = req.params.idpotato;
+  //  모델.find by id
+  const nowvideo = await Video.findById(id);
   // ES6문법 작성시 >>const {id} = req.params
-  return res.render("watch", { pageTitle: `Watch` });
+  return res.render("watch", { pageTitle: `${nowvideo.title}`, nowvideo });
 };
 
 export const search = (req, res) => res.send("video search");
@@ -47,7 +49,6 @@ export const postUpload = async (req, res) => {
     });
     return res.redirect("/");
   } catch (error) {
-    console.log(error);
     const ERRMSG = error._message;
     return res.render("upload", { pageTitle: "Upload", ERRMSG });
   }

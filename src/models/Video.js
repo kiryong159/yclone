@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const VideoSchema = new mongoose.Schema([
   {
-    title: { type: String, required: true },
-    description: { type: String, required: true },
+    title: { type: String, required: true, trim: true, maxLength: 30 },
+    description: { type: String, required: true, trim: true, minLength: 10 },
     createdAt: {
       type: Date,
       required: true,

@@ -8,8 +8,10 @@ import {
 } from "../controller/videoController";
 const Videorouter = express.Router();
 
-Videorouter.get("/:idpotato(\\d+)", watchVideo);
-Videorouter.route("/:id(\\d+)/edit").get(VideoGetEdit).post(VideoPostEdit);
+Videorouter.get("/:idpotato([0-9a-f]{24})", watchVideo);
+Videorouter.route("/:id([0-9a-f]{24})/edit")
+  .get(VideoGetEdit)
+  .post(VideoPostEdit);
 Videorouter.route("/upload").get(getUpload).post(postUpload);
 
 export default Videorouter;

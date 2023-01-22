@@ -4,7 +4,7 @@ block contents
     if ERRMSG 
         H1 에러메시지 : #{ERRMSG}
     form(method="POST")
-        input(name="uploadname" type="text" placeholder="VIDEO NAME" required )
-        input(name="description" type="text" placeholder="영상 설명" required )
+        input(name="uploadname" type="text" placeholder="VIDEO NAME(최대30자)" required maxlength=30)
+        input(name="description" type="text" placeholder="영상 설명(최소10자)" required minlength=10 )
         input(name="hashtags" type="text" placeholder="콤마로 구분해주세요" required )
         input(type="submit" value="upload")
