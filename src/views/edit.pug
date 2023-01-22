@@ -3,7 +3,11 @@ extends base.pug
 
 block contents
     h1 Yclone - Edit Video
+    div
+        a(href="/") go home
 
     form(method="POST")
-        input(name="name" type="text" value=`${nowvideo.name}` required placeholder="edit name")
+        input(name="title" type="text" value=`${nowvideo.title}` required placeholder="edit name")
+        input(name="description" type="text" placeholder="영상 설명(최소10자)" required minlength=10  value=nowvideo.description)
+        input(name="hashtags" type="text" placeholder="콤마로 구분해주세요" required value=nowvideo.hashtags.join())
         input(type="submit" value="save")

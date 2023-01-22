@@ -10,22 +10,41 @@ export const home = async (req, res) => {
   });
 };
 
-export const VideoGetEdit = (req, res) => {
+export const VideoGetEdit = async (req, res) => {
   const id = req.params.id;
-  return res.render("edit", { pageTitle: `Edit` });
+  const nowvideo = await Video.findById(id);
+  if (!nowvideo) {
+    return res.render("404", { pageTitle: "Video Not Found" });
+  }
+  return res.render("edit", { pageTitle: `Edit`, nowvideo });
 };
 
-export const VideoPostEdit = (req, res) => {
+export const VideoPostEdit = async (req, res) => {
   const { id } = req.params;
+  const { title, description, hashtags } = req.body;
+  const nowvideo = await Video.findById(id);
+  if (!nowvideo) {
+    return res.render("404", { pageTitle: "Video Not Found" });
+  }
+  nowvideo.title = title;
+  nowvideo.description = description;
+  nowvideo.hashtags = hashtags
+    .split(",")
+    .map((word) => (word.startsWith("#") ? `${word}` : `#${word}`));
+  nowvideo.save();
   return res.redirect(`/video/${nowvideo.id}`);
 };
 
 export const watchVideo = async (req, res) => {
   const id = req.params.idpotato;
-  //  모델.find by id
-  const nowvideo = await Video.findById(id);
   // ES6문법 작성시 >>const {id} = req.params
-  return res.render("watch", { pageTitle: `${nowvideo.title}`, nowvideo });
+  //  모델.findbyid
+  const nowvideo = await Video.findById(id);
+  if (nowvideo) {
+    return res.render("watch", { pageTitle: `${nowvideo.title}`, nowvideo });
+  } else {
+    return res.render("404", { pageTitle: "Video Not Found" });
+  }
 };
 
 export const search = (req, res) => res.send("video search");

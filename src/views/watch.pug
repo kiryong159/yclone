@@ -6,6 +6,8 @@ block contents
   h3 설명 : #{nowvideo.description}
 
   small=nowvideo.createdAt
+  div
+    small=nowvideo.hashtags
 
   h2 
     a(href=`${nowvideo.id}/edit`) Edit video &rarr;
