@@ -5,7 +5,10 @@ include mixin/video.pug
 block contents
     h1 Yclone - Homepage 
     span I love #{potato}
+    br
     a(href="/video/upload") Upload Video &rarr;
+    br
+    a(href="/search") Search Video
 
     div
         each potato in videos 

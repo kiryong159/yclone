@@ -45,8 +45,6 @@ export const watchVideo = async (req, res) => {
   }
 };
 
-export const search = (req, res) => res.send("video search");
-
 export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload" });
 };
@@ -77,3 +75,15 @@ export const deleteVideo = async (req, res) => {
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
 };
+
+export const search = (req, res) => {
+  const { keyword } = req.query;
+  if (keyword) {
+    //검색
+  }
+  return res.render("search", { pageTitle: "Search" });
+};
+
+// req.body = > form으로 POST 한것의 정보
+// req.params => router/~~ 에서 ~~의정보 ex) video/:potato -> req.params.potato  ->potato의정보를가져옴
+// req.query = > form으로 GET 한것의 정보 / 주소창에 ? 뒤에 붙어있는듯함.
