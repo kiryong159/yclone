@@ -1,4 +1,3 @@
-import { now } from "mongoose";
 import Video from "../models/Video";
 
 export const home = async (req, res) => {
@@ -29,7 +28,7 @@ export const VideoPostEdit = async (req, res) => {
   await Video.findByIdAndUpdate(id, {
     title,
     description,
-    hashtags: hashtags,
+    hashtags: Video.FormatHashtags(hashtags),
   });
   return res.redirect(`/video/${id}`);
 };
@@ -61,12 +60,13 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title: videoname,
       description,
-      hashtags: hashtags,
+      hashtags: Video.FormatHashtags(hashtags),
       createdAt: Date.now() + TIMEDIFF,
       // 우분투 인지 아틀라스인지 시간이 UTC로설정 되어있어서 KST+9시간 추가해줬음 그래서 Vidoe.js에 디폴트 안씀
     });
     return res.redirect("/");
   } catch (error) {
+    console.log(error);
     const ERRMSG = error._message;
     return res.render("upload", { pageTitle: "Upload", ERRMSG });
   }
