@@ -16,6 +16,17 @@ const VideoSchema = new mongoose.Schema([
   },
 ]);
 
+VideoSchema.pre("save", async function () {
+  this.hashtags = this.hashtags[0]
+    .split(",")
+    .map((word) => (word.startsWith("#") ? word : `#${word}`));
+});
+VideoSchema.pre("edit", async function () {
+  this.hashtags = this.hashtags[0]
+    .split(",")
+    .map((word) => (word.startsWith("#") ? word : `#${word}`));
+});
+
 const VideoModle = mongoose.model(`Video`, VideoSchema);
 // DB에 저장될때의 이름 은            ↑이녀석의 소문자 +s 로 이름이 지어짐
 export default VideoModle;

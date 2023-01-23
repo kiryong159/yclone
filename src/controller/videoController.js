@@ -22,17 +22,16 @@ export const VideoGetEdit = async (req, res) => {
 export const VideoPostEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
-  const nowvideo = await Video.findById(id);
+  const nowvideo = await Video.exists({ _id: id });
   if (!nowvideo) {
     return res.render("404", { pageTitle: "Video Not Found" });
   }
-  nowvideo.title = title;
-  nowvideo.description = description;
-  nowvideo.hashtags = hashtags
-    .split(",")
-    .map((word) => (word.startsWith("#") ? `${word}` : `#${word}`));
-  nowvideo.save();
-  return res.redirect(`/video/${nowvideo.id}`);
+  await Video.findByIdAndUpdate(id, {
+    title,
+    description,
+    hashtags: hashtags,
+  });
+  return res.redirect(`/video/${id}`);
 };
 
 export const watchVideo = async (req, res) => {
@@ -62,7 +61,7 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title: videoname,
       description,
-      hashtags: hashtags.split(",").map((word) => `#${word}`),
+      hashtags: hashtags,
       createdAt: Date.now() + TIMEDIFF,
       // 우분투 인지 아틀라스인지 시간이 UTC로설정 되어있어서 KST+9시간 추가해줬음 그래서 Vidoe.js에 디폴트 안씀
     });
