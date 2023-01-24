@@ -1,9 +1,14 @@
 extends base.pug
+include mixin/video.pug
 
 block contents 
     form(method="GET")
         input(placeholder="serch video" type="text" name="keyword")
         input(type="submit" value="검색하기")
+    div   
+        each gtx3070 in videos
+            +sweetpotato(gtx3070)
+
 
 
     small  

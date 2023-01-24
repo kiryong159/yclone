@@ -76,12 +76,16 @@ export const deleteVideo = async (req, res) => {
   return res.redirect("/");
 };
 
-export const search = (req, res) => {
+export const search = async (req, res) => {
   const { keyword } = req.query;
+  let videos = [];
   if (keyword) {
-    //검색
+    videos = await Video.find({
+      title: { $regex: new RegExp(keyword, "i") },
+      // `^${keword}` -> 키워드로 시작하는 것 찾을수있음  `${keyword}$` ->키워드로 끝나는거 찾을수있음
+    });
   }
-  return res.render("search", { pageTitle: "Search" });
+  return res.render("search", { pageTitle: "Search", videos });
 };
 
 // req.body = > form으로 POST 한것의 정보
