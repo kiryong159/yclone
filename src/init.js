@@ -1,6 +1,7 @@
 import "./db";
 import app from "./server";
-import videoModel from "./models/Video";
+import "./models/Video";
+import "./models/User";
 
 const PORT = "4000";
 const handleListening = () =>
