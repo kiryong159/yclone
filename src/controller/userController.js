@@ -1,4 +1,5 @@
 import User from "../models/User";
+import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "JJoin" });
 
@@ -37,12 +38,19 @@ export const getlogin = (req, res) => {
 
 export const postlogin = async (req, res) => {
   const { username, password } = req.body;
-  const exists = await User.exists({ username });
-  const ERRMSG = "존재하지 않는 계정입니다.";
-  if (!exists) {
+  const user = await User.findOne({ username });
+  const comparePW = await bcrypt.compare(password, user.password);
+  //해쉬 값 서로비교함                      ↑유저입력 PW   ↑DB에 있는 비밀번호
+
+  let ERRMSG = "존재하지 않는 계정입니다.";
+  if (!user) {
     return res.status(400).render("login", { pageTitle: "Login", ERRMSG });
   }
-  return res.end();
+  if (!comparePW) {
+    ERRMSG = "비밀번호가 틀렸습니다.";
+    return res.status(400).render("login", { pageTitle: "Login", ERRMSG });
+  }
+  user.password;
 };
 
 export const Useredit = (req, res) => res.send("User edit");
