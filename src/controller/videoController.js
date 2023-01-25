@@ -13,7 +13,7 @@ export const VideoGetEdit = async (req, res) => {
   const id = req.params.id;
   const nowvideo = await Video.findById(id);
   if (!nowvideo) {
-    return res.render("404", { pageTitle: "Video Not Found" });
+    return res.status(404).render("404", { pageTitle: "Video Not Found" });
   }
   return res.render("edit", { pageTitle: `Edit`, nowvideo });
 };
@@ -23,7 +23,7 @@ export const VideoPostEdit = async (req, res) => {
   const { title, description, hashtags } = req.body;
   const nowvideo = await Video.exists({ _id: id });
   if (!nowvideo) {
-    return res.render("404", { pageTitle: "Video Not Found" });
+    return res.status(404).render("404", { pageTitle: "Video Not Found" });
   }
   await Video.findByIdAndUpdate(id, {
     title,
@@ -41,7 +41,7 @@ export const watchVideo = async (req, res) => {
   if (nowvideo) {
     return res.render("watch", { pageTitle: `${nowvideo.title}`, nowvideo });
   } else {
-    return res.render("404", { pageTitle: "Video Not Found" });
+    return res.status(404).render("404", { pageTitle: "Video Not Found" });
   }
 };
 
@@ -66,7 +66,7 @@ export const postUpload = async (req, res) => {
   } catch (error) {
     console.log(error);
     const ERRMSG = error._message;
-    return res.render("upload", { pageTitle: "Upload", ERRMSG });
+    return res.status(400).render("upload", { pageTitle: "Upload", ERRMSG });
   }
 };
 
@@ -82,7 +82,8 @@ export const search = async (req, res) => {
   if (keyword) {
     videos = await Video.find({
       title: { $regex: new RegExp(keyword, "i") },
-      // `^${keword}` -> 키워드로 시작하는 것 찾을수있음  `${keyword}$` ->키워드로 끝나는거 찾을수있음
+      //regex->레귤러 익스프레스? 인듯
+      //`^${keword}` -> 키워드로 시작하는 것 찾을수있음  `${keyword}$` ->키워드로 끝나는거 찾을수있음
     });
   }
   return res.render("search", { pageTitle: "Search", videos });
