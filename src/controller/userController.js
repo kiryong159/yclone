@@ -50,7 +50,9 @@ export const postlogin = async (req, res) => {
     ERRMSG = "비밀번호가 틀렸습니다.";
     return res.status(400).render("login", { pageTitle: "Login", ERRMSG });
   }
-  user.password;
+  req.session.loggedIn = true;
+  req.session.user = user;
+  return res.redirect("/");
 };
 
 export const Useredit = (req, res) => res.send("User edit");

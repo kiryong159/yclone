@@ -10,10 +10,15 @@ block contents
     br
     a(href="/search") Search Video
     br
-    a(href="/join") JOIN
-    br
-    a(href="/login") LOGIN
-    div
+    if loggedIn 
+        a(href="/logout") Logout 
+        br
+        a(href="/profile") #{user.name}의 profile
+    else 
+        a(href="/join") JOIN
+        br
+        a(href="/login") LOGIN
+        div
         each potato in videos 
             +sweetpotato(potato)
         else 
