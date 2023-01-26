@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import Videorouter from "./routers/videoRouter";
 import Userrouter from "./routers/userRouter";
@@ -13,8 +14,18 @@ app.set("views", process.cwd() + "/src/views");
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({ secret: "hello", resave: true, saveUninitialized: true }));
-//                         ↑비밀 쪽지? 같은것
+app.use(
+  session({
+    secret: "hello",
+    // ↑비밀 쪽지? 같은것
+    resave: true,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: "mongodb+srv://kiryong:1234@yclone.fhkppsh.mongodb.net/test",
+    }),
+  })
+);
+
 app.use(loacalsmiddelware);
 // pug는 res.locals와 통신할수있음 -> router 가기전에 미들웨어로 req.session값을 local과 이어주면 어디에서나 사용가능
 app.use("/", rootRouter);

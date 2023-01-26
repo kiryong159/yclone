@@ -61,7 +61,12 @@ export const Userremove = (req, res) => res.send("User remove");
 
 export const seeUser = (req, res) => res.send("seeUser");
 
-export const logout = (req, res) => res.send("logout");
+export const logout = (req, res) => {
+  // req.session.loggedIn = false;
+  // res.locals.loggedIn = req.session.loggedIn;
+  //user 어케지움? ㅋㅋ
+  return res.redirect("/");
+};
 
 // res.status( ) 200->OK
 // - 400(Bad Request): 서버가 요청의 구문을 인식하지 못할 때 발생한다
