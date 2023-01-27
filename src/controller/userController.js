@@ -68,6 +68,21 @@ export const logout = (req, res) => {
   return res.redirect("/");
 };
 
+export const loginGithub = (req, res) => {
+  const baseURL = `https://github.com/login/oauth/authorize`;
+  const config = {
+    client_id: "c9e105046cace8d7b1a3",
+    allow_signup: false,
+    scope: "read:user user:email",
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalURL = `${baseURL}?${params}`;
+  return res.redirect(finalURL);
+};
+
+export const finishGithub = (req, res) => {
+  res.end();
+};
 // res.status( ) 200->OK
 // - 400(Bad Request): 서버가 요청의 구문을 인식하지 못할 때 발생한다
 // - 404(Not Found): 서버가 요청한 페이지를 찾을 수 없을 때  발생한다
