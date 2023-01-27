@@ -16,12 +16,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    secret: "hello",
+    secret: process.env.COOKIE_SECRET,
     // ↑비밀 쪽지? 같은것
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    //resave:true 세션 변경사항이 있든없든 저장함
+    saveUninitialized: false,
+    // 둘다 false 로 두면 로그인한 유저만 세션에 남음
     store: MongoStore.create({
-      mongoUrl: "mongodb+srv://kiryong:1234@yclone.fhkppsh.mongodb.net/test",
+      mongoUrl: process.env.DB_URL,
     }),
   })
 );

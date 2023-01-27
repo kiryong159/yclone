@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 //몽구즈.셋.(스트릭쿼리가 컨넥트 보다 먼저들어와야함)
 mongoose.set("strictQuery", true);
 
-mongoose.connect("mongodb+srv://kiryong:1234@yclone.fhkppsh.mongodb.net/test", {
+mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
