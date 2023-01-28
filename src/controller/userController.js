@@ -1,4 +1,5 @@
 import User from "../models/User";
+import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "JJoin" });
@@ -71,7 +72,7 @@ export const logout = (req, res) => {
 export const loginGithub = (req, res) => {
   const baseURL = `https://github.com/login/oauth/authorize`;
   const config = {
-    client_id: "c9e105046cace8d7b1a3",
+    client_id: process.env.CLIENT_ID,
     allow_signup: false,
     scope: "read:user user:email",
   };
@@ -80,8 +81,34 @@ export const loginGithub = (req, res) => {
   return res.redirect(finalURL);
 };
 
-export const finishGithub = (req, res) => {
-  res.end();
+export const finishGithub = async (req, res) => {
+  const baseURL = "https://github.com/login/oauth/access_token";
+  const config = {
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRETS,
+    code: req.query.code,
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalURL = `${baseURL}?${params}`;
+  const tokenRequest = await (
+    await fetch(finalURL, {
+      method: "POST",
+      headers: { Accept: "application/json" },
+    })
+  ).json();
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const userRequest = await (
+      await fetch("https://api.github.com/user", {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    console.log(userRequest);
+  } else {
+    return res.redirect("/login");
+  }
 };
 // res.status( ) 200->OK
 // - 400(Bad Request): 서버가 요청의 구문을 인식하지 못할 때 발생한다
