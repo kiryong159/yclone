@@ -98,14 +98,45 @@ export const finishGithub = async (req, res) => {
   ).json();
   if ("access_token" in tokenRequest) {
     const { access_token } = tokenRequest;
+    const ApiUrl = "https://api.github.com";
     const userRequest = await (
-      await fetch("https://api.github.com/user", {
+      await fetch(`${ApiUrl}/user`, {
         headers: {
           Authorization: `token ${access_token}`,
         },
       })
     ).json();
-    console.log(userRequest);
+    //console.log(userRequest);
+    const emailRequest = await (
+      await fetch(`${ApiUrl}/user/emails`, {
+        headers: { Authorization: `token ${access_token}` },
+      })
+    ).json();
+    // console.log(emailRequest);
+    const emailObj = emailRequest.find(
+      (email) => email.primary === true && email.verified === true
+    );
+    if (!emailObj) {
+      return res.redirect("/login");
+    }
+    const existingUser = await User.findOne({ email: emailObj.email });
+    if (existingUser) {
+      // DB와 깃헙의 이메일이 동일한 사람이 나타나면 로그인 시켜줌.
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      const user = await User.create({
+        email: emailObj.email,
+        username: userRequest.login,
+        password: "",
+        socialOnly: true,
+        name: userRequest.name,
+        location: userRequest.location,
+      });
+      req.session.loggedIn = true;
+      req.session.user = user;
+    }
   } else {
     return res.redirect("/login");
   }
