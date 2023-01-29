@@ -39,14 +39,13 @@ export const getlogin = (req, res) => {
 
 export const postlogin = async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username });
-  const comparePW = await bcrypt.compare(password, user.password);
-  //해쉬 값 서로비교함                      ↑유저입력 PW   ↑DB에 있는 비밀번호
-
+  const user = await User.findOne({ username, socialOnly: false });
   let ERRMSG = "존재하지 않는 계정입니다.";
   if (!user) {
     return res.status(400).render("login", { pageTitle: "Login", ERRMSG });
   }
+  const comparePW = await bcrypt.compare(password, user.password);
+  //해쉬 값 서로비교함                      ↑유저입력 PW   ↑DB에 있는 비밀번호
   if (!comparePW) {
     ERRMSG = "비밀번호가 틀렸습니다.";
     return res.status(400).render("login", { pageTitle: "Login", ERRMSG });
@@ -58,14 +57,10 @@ export const postlogin = async (req, res) => {
 
 export const Useredit = (req, res) => res.send("User edit");
 
-export const Userremove = (req, res) => res.send("User remove");
-
 export const seeUser = (req, res) => res.send("seeUser");
 
 export const logout = (req, res) => {
-  // req.session.loggedIn = false;
-  // res.locals.loggedIn = req.session.loggedIn;
-  //user 어케지움? ㅋㅋ
+  req.session.destroy();
   return res.redirect("/");
 };
 
@@ -119,24 +114,22 @@ export const finishGithub = async (req, res) => {
     if (!emailObj) {
       return res.redirect("/login");
     }
-    const existingUser = await User.findOne({ email: emailObj.email });
-    if (existingUser) {
-      // DB와 깃헙의 이메일이 동일한 사람이 나타나면 로그인 시켜줌.
-      req.session.loggedIn = true;
-      req.session.user = existingUser;
-      return res.redirect("/");
-    } else {
-      const user = await User.create({
+    let user = await User.findOne({ email: emailObj.email });
+    if (!user) {
+      user = await User.create({
         email: emailObj.email,
+        avatarUrl: userRequest.avatar_url,
         username: userRequest.login,
         password: "",
         socialOnly: true,
         name: userRequest.name,
         location: userRequest.location,
       });
-      req.session.loggedIn = true;
-      req.session.user = user;
     }
+    // DB와 깃헙의 이메일이 동일한 사람이 나타나면 로그인 시켜줌.
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
   } else {
     return res.redirect("/login");
   }
@@ -144,3 +137,7 @@ export const finishGithub = async (req, res) => {
 // res.status( ) 200->OK
 // - 400(Bad Request): 서버가 요청의 구문을 인식하지 못할 때 발생한다
 // - 404(Not Found): 서버가 요청한 페이지를 찾을 수 없을 때  발생한다
+
+export const loginKakao = (req, res) => {
+  res.redirect("/");
+};
