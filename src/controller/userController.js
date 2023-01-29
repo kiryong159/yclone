@@ -139,6 +139,73 @@ export const finishGithub = async (req, res) => {
 // - 404(Not Found): 서버가 요청한 페이지를 찾을 수 없을 때  발생한다
 
 export const loginKakao = (req, res) => {
-  res.redirect("/");
+  const baseURL = "https://kauth.kakao.com/oauth/authorize";
+  // http://localhost 빼면 작동안됨 (카카오 api 페이지에 등록된것만 사용가능)
+  // 카카오 api 페이지에서 동의항목을 체크해야  scope작동함
+  const config = {
+    response_type: "code",
+    client_id: process.env.KAKAO_REST_API_KEY,
+    redirect_uri: "http://localhost:4000/user/kakaofinish",
+    scope: "account_email,profile_nickname",
+  };
+  const params = new URLSearchParams(config).toString();
+  res.redirect(`${baseURL}?${params}`);
 };
-asdasd;
+
+export const finishKakao = async (req, res) => {
+  const baseURL = "https://kauth.kakao.com/oauth/token";
+  //Host: kauth.kakao.com + /oauth/token +@를 POST하라는 뜻같음
+  const config = {
+    //Required O 인것들
+    grant_type: "authorization_code",
+    client_id: process.env.KAKAO_REST_API_KEY,
+    redirect_uri: "http://localhost:4000/user/kakaofinish",
+    code: req.query.code,
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalURL = `${baseURL}?${params}`;
+  const tokenRequest = await (
+    await fetch(finalURL, {
+      method: "post",
+      headers: {
+        Content_type: "application/x-www-form-urlencoded;charset=utf-8",
+      },
+    })
+  ).json();
+  //console.log(tokenRequest);
+  if ("access_token" in tokenRequest) {
+    const baseURL = "https://kapi.kakao.com/v2/user/me";
+    const { access_token } = tokenRequest;
+    const userRequest = await (
+      await fetch(baseURL, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+        property_keys: ["kakao_account.email"],
+      })
+    ).json();
+    //.json() 안해주면 데이터 이상한거 줌
+    console.log(userRequest);
+    // console.log(userRequest.kakao_account.profile.nickname);
+    let user = await User.findOne({
+      email: userRequest.kakao_account.email,
+    });
+    if (!user) {
+      user = await User.create({
+        email: userRequest.kakao_account.email,
+        username: userRequest.id,
+        password: "",
+        socialOnly: true,
+        name: userRequest.kakao_account.profile.nickname,
+        location: userRequest.location,
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
+  } else {
+    //엑세스 토큰 없을때 ~~
+  }
+
+  return res.end();
+};
