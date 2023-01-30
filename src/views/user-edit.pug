@@ -7,3 +7,6 @@ block contents
         input(type="text" name="location" placeholder="Location" required value=loggedInuser.location)
         input(type="text" name="name" placeholder="Name" required value=loggedInuser.name)
         input(type="submit" value="프로필 수정하기")
+        if loggedInuser.socialOnly!==true 
+            hr
+            a(href="/user/changepw") Change Password &rarr;

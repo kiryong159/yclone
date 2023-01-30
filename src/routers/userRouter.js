@@ -8,6 +8,8 @@ import {
   finishGithub,
   loginKakao,
   finishKakao,
+  getChangePW,
+  postChangePW,
 } from "../controller/userController";
 import { ProtectMiddleware, PublicMiddleware } from "../middleware";
 const Userrouter = express.Router();
@@ -21,6 +23,10 @@ Userrouter.get("/startGH", PublicMiddleware, loginGithub);
 Userrouter.get("/finishGH", PublicMiddleware, finishGithub);
 Userrouter.get("/kakaostart", PublicMiddleware, loginKakao);
 Userrouter.get("/kakaofinish", PublicMiddleware, finishKakao);
+Userrouter.route("/changepw")
+  .all(ProtectMiddleware)
+  .get(getChangePW)
+  .post(postChangePW);
 Userrouter.get("/:id(\\d+)", seeUser);
 
 export default Userrouter;
