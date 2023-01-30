@@ -227,16 +227,6 @@ export const postUseredit = async (req, res) => {
     if (findEmail) {
       console.log("중복감지");
       return res.redirect("/");
-    } else {
-      console.log(req.session.user.email);
-      req.session.user.email = email;
-      const emailUpdate = await User.findByIdAndUpdate(
-        _id,
-        { email },
-        { new: true }
-      );
-      req.session.user = emailUpdate;
-      return res.redirect("/user/edit");
     }
   }
   const updatedUser = await User.findByIdAndUpdate(
