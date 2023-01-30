@@ -207,14 +207,54 @@ export const finishKakao = async (req, res) => {
 };
 
 export const getUseredit = (req, res) => {
-  console.log(req.session.user);
   return res.render("user-edit", { pageTitle: "User Edit" });
 };
 
 export const postUseredit = async (req, res) => {
   const _id = req.session.user._id;
   const { email, username, location, name } = req.body;
-  await User.findByIdAndUpdate(_id, { email, username, location, name });
+
+  if (req.session.user.username !== username) {
+    const findUser = await User.exists({ username: username });
+    console.log(findUser);
+    if (findUser) {
+      console.log("중복감지");
+      return res.redirect("/");
+    } else {
+      req.session.user.username = username;
+      const usernameUpdate = await User.findByIdAndUpdate(
+        _id,
+        { username },
+        { new: true }
+      );
+      req.session.user = usernameUpdate;
+    }
+  }
+  if (req.session.email !== email) {
+    const findEmail = await User.findOne({ email: email });
+    console.log(findEmail);
+    if (findEmail) {
+      console.log("중복감지");
+      return res.redirect("/");
+    } else {
+      req.session.user.email = email;
+      const emailUpdate = await User.findByIdAndUpdate(
+        _id,
+        { email },
+        { new: true }
+      );
+      req.session.user = emailUpdate;
+      return res.redirect("/user/edit");
+    }
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    { location, name },
+    { new: true }
+  );
+
+  req.session.user = updatedUser;
   return res.redirect("/");
 };
 
