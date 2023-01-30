@@ -216,18 +216,9 @@ export const postUseredit = async (req, res) => {
 
   if (req.session.user.username !== username) {
     const findUser = await User.exists({ username: username });
-    //console.log(findUser);
     if (findUser) {
       console.log("중복감지");
       return res.redirect("/");
-    } else {
-      req.session.user.username = username;
-      const usernameUpdate = await User.findByIdAndUpdate(
-        _id,
-        { username },
-        { new: true }
-      );
-      req.session.user = usernameUpdate;
     }
   }
   if (req.session.user.email !== email) {
@@ -236,22 +227,11 @@ export const postUseredit = async (req, res) => {
     if (findEmail) {
       console.log("중복감지");
       return res.redirect("/");
-    } else {
-      console.log(req.session.user.email);
-      req.session.user.email = email;
-      const emailUpdate = await User.findByIdAndUpdate(
-        _id,
-        { email },
-        { new: true }
-      );
-      req.session.user = emailUpdate;
-      return res.redirect("/user/edit");
     }
   }
-
   const updatedUser = await User.findByIdAndUpdate(
     _id,
-    { location, name },
+    { location, name, username, email },
     { new: true }
   );
 
