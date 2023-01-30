@@ -1,6 +1,7 @@
 import User from "../models/User";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
+import USER from "../models/User";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "JJoin" });
 
@@ -200,10 +201,9 @@ export const finishKakao = async (req, res) => {
     req.session.user = user;
     return res.redirect("/");
   } else {
-    //엑세스 토큰 없을때 ~~
+    //엑세스 토큰없을때
+    return res.redirect("/");
   }
-
-  return res.end();
 };
 
 export const getUseredit = (req, res) => {
@@ -211,7 +211,10 @@ export const getUseredit = (req, res) => {
   return res.render("user-edit", { pageTitle: "User Edit" });
 };
 
-export const postUseredit = (req, res) => {
+export const postUseredit = async (req, res) => {
+  const _id = req.session.user._id;
+  const { email, username, location, name } = req.body;
+  await User.findByIdAndUpdate(_id, { email, username, location, name });
   return res.redirect("/");
 };
 

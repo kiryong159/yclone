@@ -11,7 +11,7 @@ export const loacalsmiddelware = (req, res, next) => {
 
 export const ProtectMiddleware = (req, res, next) => {
   if (req.session.loggedIn) {
-    next();
+    return next();
   } else {
     return res.redirect("/");
   }
@@ -19,7 +19,7 @@ export const ProtectMiddleware = (req, res, next) => {
 
 export const PublicMiddleware = (req, res, next) => {
   if (!req.session.loggedIn) {
-    next();
+    return next();
   } else {
   }
   return res.redirect("/");
