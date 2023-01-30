@@ -216,7 +216,7 @@ export const postUseredit = async (req, res) => {
 
   if (req.session.user.username !== username) {
     const findUser = await User.exists({ username: username });
-    console.log(findUser);
+    //console.log(findUser);
     if (findUser) {
       console.log("중복감지");
       return res.redirect("/");
@@ -230,13 +230,14 @@ export const postUseredit = async (req, res) => {
       req.session.user = usernameUpdate;
     }
   }
-  if (req.session.email !== email) {
+  if (req.session.user.email !== email) {
     const findEmail = await User.findOne({ email: email });
     console.log(findEmail);
     if (findEmail) {
       console.log("중복감지");
       return res.redirect("/");
     } else {
+      console.log(req.session.user.email);
       req.session.user.email = email;
       const emailUpdate = await User.findByIdAndUpdate(
         _id,
