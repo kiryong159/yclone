@@ -1,6 +1,7 @@
 import express from "express";
 import {
-  Useredit,
+  getUseredit,
+  postUseredit,
   seeUser,
   logout,
   loginGithub,
@@ -8,14 +9,18 @@ import {
   loginKakao,
   finishKakao,
 } from "../controller/userController";
+import { ProtectMiddleware, PublicMiddleware } from "../middleware";
 const Userrouter = express.Router();
 
-Userrouter.get("/edit", Useredit);
-Userrouter.get("/logout", logout);
-Userrouter.get("/startGH", loginGithub);
-Userrouter.get("/finishGH", finishGithub);
-Userrouter.get("/kakaostart", loginKakao);
-Userrouter.get("/kakaofinish", finishKakao);
+Userrouter.route("/edit")
+  .all(ProtectMiddleware)
+  .get(getUseredit)
+  .post(postUseredit);
+Userrouter.get("/logout", ProtectMiddleware, logout);
+Userrouter.get("/startGH", PublicMiddleware, loginGithub);
+Userrouter.get("/finishGH", PublicMiddleware, finishGithub);
+Userrouter.get("/kakaostart", PublicMiddleware, loginKakao);
+Userrouter.get("/kakaofinish", PublicMiddleware, finishKakao);
 Userrouter.get("/:id(\\d+)", seeUser);
 
 export default Userrouter;

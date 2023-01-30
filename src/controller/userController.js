@@ -55,10 +55,6 @@ export const postlogin = async (req, res) => {
   return res.redirect("/");
 };
 
-export const Useredit = (req, res) => res.send("User edit");
-
-export const seeUser = (req, res) => res.send("seeUser");
-
 export const logout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
@@ -209,3 +205,14 @@ export const finishKakao = async (req, res) => {
 
   return res.end();
 };
+
+export const getUseredit = (req, res) => {
+  console.log(req.session.user);
+  return res.render("user-edit", { pageTitle: "User Edit" });
+};
+
+export const postUseredit = (req, res) => {
+  return res.redirect("/");
+};
+
+export const seeUser = (req, res) => res.send("seeUser");
