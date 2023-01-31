@@ -212,10 +212,9 @@ export const getUseredit = (req, res) => {
 
 export const postUseredit = async (req, res) => {
   const _id = req.session.user._id;
+  const { avatarUrl } = req.session.user;
   const { email, username, location, name } = req.body;
   const { file } = req;
-  console.log(req.file);
-  console.log(file);
 
   if (req.session.user.username !== username) {
     const findUser = await User.exists({ username: username });
@@ -234,7 +233,13 @@ export const postUseredit = async (req, res) => {
   }
   const updatedUser = await User.findByIdAndUpdate(
     _id,
-    { location, name, username, email },
+    {
+      location,
+      name,
+      username,
+      email,
+      avatarUrl: file ? file.path : avatarUrl,
+    },
     { new: true }
   );
 

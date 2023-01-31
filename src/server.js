@@ -30,6 +30,7 @@ app.use(
 
 app.use(loacalsmiddelware);
 // pug는 res.locals와 통신할수있음 -> router 가기전에 미들웨어로 req.session값을 local과 이어주면 어디에서나 사용가능
+app.use("/uploads", express.static("uploads"));
 app.use("/", rootRouter);
 app.use("/video", Videorouter);
 app.use("/user", Userrouter);
