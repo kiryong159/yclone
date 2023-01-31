@@ -11,13 +11,17 @@ import {
   getChangePW,
   postChangePW,
 } from "../controller/userController";
-import { ProtectMiddleware, PublicMiddleware } from "../middleware";
+import {
+  ProtectMiddleware,
+  PublicMiddleware,
+  UploadMiddleware,
+} from "../middleware";
 const Userrouter = express.Router();
 
 Userrouter.route("/edit")
   .all(ProtectMiddleware)
   .get(getUseredit)
-  .post(postUseredit);
+  .post(UploadMiddleware.single("avatar"), postUseredit);
 Userrouter.get("/logout", ProtectMiddleware, logout);
 Userrouter.get("/startGH", PublicMiddleware, loginGithub);
 Userrouter.get("/finishGH", PublicMiddleware, finishGithub);

@@ -1,3 +1,5 @@
+import multer from "multer";
+
 export const loacalsmiddelware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.siteName = "Yclone";
@@ -24,3 +26,5 @@ export const PublicMiddleware = (req, res, next) => {
   }
   return res.redirect("/");
 };
+
+export const UploadMiddleware = multer({ dest: `uploads/` });

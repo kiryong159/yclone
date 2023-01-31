@@ -213,6 +213,9 @@ export const getUseredit = (req, res) => {
 export const postUseredit = async (req, res) => {
   const _id = req.session.user._id;
   const { email, username, location, name } = req.body;
+  const { file } = req;
+  console.log(req.file);
+  console.log(file);
 
   if (req.session.user.username !== username) {
     const findUser = await User.exists({ username: username });
@@ -246,7 +249,30 @@ export const getChangePW = (req, res) => {
   return res.render("changepw", { pageTitle: "Change Password" });
 };
 
-export const postChangePW = (req, res) => {
+export const postChangePW = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { oldPW, newPW, newPW1 },
+  } = req;
+
+  const user = await User.findById(_id);
+  const comparePW = await bcrypt.compare(oldPW, user.password);
+  if (!comparePW) {
+    console.log("oldPW !== password");
+    return res.status(400).redirect("changepw");
+  }
+  if (newPW !== newPW1) {
+    console.log("newPW !== NewPW1");
+    return res.status(400).redirect("changepw");
+  }
+  user.password = newPW;
+  await user.save();
+  // save를 해야지 비밀번호가 hash화 됨
+  // 만약 위에서 user.password를 사용하지않고 session에서 찾은 password를 사용했다면
+  // 밑에서 req.session.user.password = newpw 같이 업데이트를 해줘야 바뀜
+  // 비밀번호 변경후 로그아웃으로 보내버리면 session을 파괴해서 상관없는듯??
   return res.redirect("/");
 };
 
