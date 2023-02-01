@@ -9,11 +9,12 @@ block contents
   small=nowvideo.createdAt
   div
     small=nowvideo.hashtags
-
-  h2 
-    a(href=`${nowvideo.id}/edit`) Edit video &rarr;
-
-  h5 
-    a(href="/") GO home &rarr;
-    br
-    a(href=`${nowvideo.id}/delete`) Delete Video &rarr;
+  div
+    img(src=`${owner.avatarUrl}` width="50",height="50")  
+    small Uploaded by  #{owner.name}
+  if String(nowvideo.owner) === String(loggedInuser._id) 
+    h5 
+      a(href=`${nowvideo.id}/edit`) Edit video &rarr;
+      br
+      a(href=`${nowvideo.id}/delete`) Delete Video &rarr;
+  a(href="/") GO home &rarr;

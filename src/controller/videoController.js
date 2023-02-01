@@ -1,4 +1,5 @@
 import Video from "../models/Video";
+import User from "../models/User";
 
 export const home = async (req, res) => {
   const videos = await Video.find({});
@@ -38,8 +39,13 @@ export const watchVideo = async (req, res) => {
   // ES6문법 작성시 >>const {id} = req.params
   //  모델.findbyid
   const nowvideo = await Video.findById(id);
+  const owner = await User.findById(nowvideo.owner);
   if (nowvideo) {
-    return res.render("watch", { pageTitle: `${nowvideo.title}`, nowvideo });
+    return res.render("watch", {
+      pageTitle: `${nowvideo.title}`,
+      nowvideo,
+      owner,
+    });
   } else {
     return res.status(404).render("404", { pageTitle: "Video Not Found" });
   }
@@ -50,6 +56,7 @@ export const getUpload = (req, res) => {
 };
 
 export const postUpload = async (req, res) => {
+  const id = req.session.user._id;
   const videoname = req.body.uploadname;
   const { description, hashtags } = req.body;
   const TIMEDIFF = 9 * 60 * 60 * 1000;
@@ -57,6 +64,7 @@ export const postUpload = async (req, res) => {
   // 여기 ↓사용  비디오 모델
   try {
     await Video.create({
+      owner: id,
       title: videoname,
       fileUrl: file.path,
       description,
