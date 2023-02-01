@@ -13,8 +13,9 @@ const VideoSchema = new mongoose.Schema([
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: `user`,
     },
+    // ref 는 user스키마 제작할때에 이름으로 작성해야함 ㅅㅂ
     meta: {
       views: { type: Number, default: 0, required: true },
       rating: { type: Number, default: 0, required: true },

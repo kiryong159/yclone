@@ -1,7 +1,7 @@
 import User from "../models/User";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
-import USER from "../models/User";
+import Video from "../models/Video";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "JJoin" });
 
@@ -284,8 +284,13 @@ export const postChangePW = async (req, res) => {
 export const seeUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id);
+  const videos = await Video.find({ owner: id });
   if (!user) {
     return res.status(404).render("404");
   }
-  return res.render("profile", { pageTitle: `${user.name}Pro file`, user });
+  return res.render("profile", {
+    pageTitle: `${user.name}Pro file`,
+    user,
+    videos,
+  });
 };

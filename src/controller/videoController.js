@@ -38,13 +38,11 @@ export const watchVideo = async (req, res) => {
   const id = req.params.idpotato;
   // ES6문법 작성시 >>const {id} = req.params
   //  모델.findbyid
-  const nowvideo = await Video.findById(id);
-  const owner = await User.findById(nowvideo.owner);
+  const nowvideo = await Video.findById(id).populate("owner");
   if (nowvideo) {
     return res.render("watch", {
       pageTitle: `${nowvideo.title}`,
       nowvideo,
-      owner,
     });
   } else {
     return res.status(404).render("404", { pageTitle: "Video Not Found" });

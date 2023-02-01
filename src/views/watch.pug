@@ -10,9 +10,10 @@ block contents
   div
     small=nowvideo.hashtags
   div
-    img(src=`${owner.avatarUrl}` width="50",height="50")  
-    small Uploaded by  #{owner.name}
-  if String(nowvideo.owner) === String(loggedInuser._id) 
+     img(src=`${nowvideo.owner.avatarUrl}` width="50",height="50")  
+     small Uploaded by 
+      a(href=`/user/${nowvideo.owner._id}`) #{nowvideo.owner.name}
+  if String(nowvideo.owner._id) === String(loggedInuser._id) 
     h5 
       a(href=`${nowvideo.id}/edit`) Edit video &rarr;
       br
