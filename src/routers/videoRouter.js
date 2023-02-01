@@ -7,7 +7,7 @@ import {
   postUpload,
   deleteVideo,
 } from "../controller/videoController";
-import { ProtectMiddleware } from "../middleware";
+import { ProtectMiddleware, videoUploadMiddleware } from "../middleware";
 const Videorouter = express.Router();
 
 Videorouter.get("/:idpotato([0-9a-f]{24})", watchVideo);
@@ -18,7 +18,7 @@ Videorouter.route("/:id([0-9a-f]{24})/edit")
 Videorouter.route("/upload")
   .all(ProtectMiddleware)
   .get(getUpload)
-  .post(postUpload);
+  .post(videoUploadMiddleware.single("video"), postUpload);
 Videorouter.route(`/:id([0-9a-f]{24})/delete`)
   .all(ProtectMiddleware)
   .get(deleteVideo);

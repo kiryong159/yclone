@@ -14,14 +14,14 @@ import {
 import {
   ProtectMiddleware,
   PublicMiddleware,
-  UploadMiddleware,
+  avatarUploadMiddleware,
 } from "../middleware";
 const Userrouter = express.Router();
 
 Userrouter.route("/edit")
   .all(ProtectMiddleware)
   .get(getUseredit)
-  .post(UploadMiddleware.single("avatar"), postUseredit);
+  .post(avatarUploadMiddleware.single("avatar"), postUseredit);
 Userrouter.get("/logout", ProtectMiddleware, logout);
 Userrouter.get("/startGH", PublicMiddleware, loginGithub);
 Userrouter.get("/finishGH", PublicMiddleware, finishGithub);
@@ -31,6 +31,6 @@ Userrouter.route("/changepw")
   .all(ProtectMiddleware)
   .get(getChangePW)
   .post(postChangePW);
-Userrouter.get("/:id(\\d+)", seeUser);
+Userrouter.get("/:id", seeUser);
 
 export default Userrouter;

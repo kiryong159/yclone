@@ -3,6 +3,7 @@ extends base.pug
 block contents
   h1 #{nowvideo.title} | Yclone - Watch Video
 
+  video(src="/"+nowvideo.fileUrl controls) 
   h3 설명 : #{nowvideo.description}
 
   small=nowvideo.createdAt

@@ -281,4 +281,11 @@ export const postChangePW = async (req, res) => {
   return res.redirect("/");
 };
 
-export const seeUser = (req, res) => res.send("seeUser");
+export const seeUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+    return res.status(404).render("404");
+  }
+  return res.render("profile", { pageTitle: `${user.name}Pro file`, user });
+};
