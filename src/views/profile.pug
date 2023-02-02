@@ -2,7 +2,10 @@ extends base.pug
 include ./mixin/video.pug
 
 block contents 
-    each banana in videos 
+    h1 #{user.name}님이 올린 영상
+    each banana in user.videos 
         +sweetpotato(banana)
     else 
         h3 sorry nothing found.
+    small
+        a(href="/") Go home &rarr;

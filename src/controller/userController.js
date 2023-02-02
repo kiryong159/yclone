@@ -283,14 +283,12 @@ export const postChangePW = async (req, res) => {
 
 export const seeUser = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id);
-  const videos = await Video.find({ owner: id });
+  const user = await User.findById(id).populate("videos");
   if (!user) {
     return res.status(404).render("404");
   }
   return res.render("profile", {
-    pageTitle: `${user.name}Pro file`,
+    pageTitle: `${user.name} 의 Pro file`,
     user,
-    videos,
   });
 };

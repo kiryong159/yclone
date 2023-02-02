@@ -16,15 +16,29 @@ export const VideoGetEdit = async (req, res) => {
   if (!nowvideo) {
     return res.status(404).render("404", { pageTitle: "Video Not Found" });
   }
+  if (String(req.session.user._id) !== String(nowvideo.owner)) {
+    console.log(
+      `로그인 중인 아이디${String(req.session.user._id)}`,
+      `비디오 주인${String(nowvideo.owner)}`
+    );
+    return res.status(403).redirect("/");
+  }
   return res.render("edit", { pageTitle: `Edit`, nowvideo });
 };
 
 export const VideoPostEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
-  const nowvideo = await Video.exists({ _id: id });
+  const nowvideo = await Video.findById({ id });
   if (!nowvideo) {
     return res.status(404).render("404", { pageTitle: "Video Not Found" });
+  }
+  if (String(req.session.user._id) !== String(nowvideo.owner)) {
+    console.log(
+      `로그인 중인 아이디${String(req.session.user._id)}`,
+      `비디오 주인${String(nowvideo.owner)}`
+    );
+    return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
     title,
@@ -61,7 +75,7 @@ export const postUpload = async (req, res) => {
   const file = req.file;
   // 여기 ↓사용  비디오 모델
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       owner: id,
       title: videoname,
       fileUrl: file.path,
@@ -70,6 +84,9 @@ export const postUpload = async (req, res) => {
       createdAt: Date.now() + TIMEDIFF,
       // 우분투 인지 아틀라스인지 시간이 UTC로설정 되어있어서 KST+9시간 추가해줬음 그래서 Vidoe.js에 디폴트 안씀
     });
+    const user = await User.findById(id);
+    user.videos.push(newVideo._id);
+    user.save();
     return res.redirect("/");
   } catch (error) {
     console.log(error);
@@ -80,8 +97,21 @@ export const postUpload = async (req, res) => {
 
 export const deleteVideo = async (req, res) => {
   const id = req.params.id;
+  const nowvideo = await Video.findById(id);
+  const user = await User.findById(id);
+  if (!nowvideo) {
+    return res.status(404).render("404", { pageTitle: "Video Not Found" });
+  }
+  if (req.session.user._id !== String(nowvideo.owner)) {
+    console.log(
+      `로그인 중인 아이디${String(req.session.user._id)}`,
+      `비디오 주인${String(nowvideo.owner)}`
+    );
+    return res.status(403).redirect("/");
+  }
   await Video.findByIdAndDelete(id);
   return res.redirect("/");
+  // 지워도 user.videos 에 남아있음
 };
 
 export const search = async (req, res) => {
