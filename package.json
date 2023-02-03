@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "nodemon --exec babel-node src/init.js",
-    "assets": "webpack --confing webpack.config.js"
+    "assets": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,12 @@
     "@babel/core": "^7.20.12",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
     "nodemon": "^2.0.20",
+    "sass": "^1.58.0",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
   }
