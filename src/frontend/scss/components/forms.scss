@@ -1,0 +1,95 @@
+.form-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.join-loginform {
+  padding: 15px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  background-color: rgb(235, 248, 255);
+  border-radius: 15px;
+  box-shadow: $shadow;
+  width: 380px;
+  input {
+    all: unset;
+    max-width: 300px;
+    border: none;
+    box-shadow: $shadow;
+    font-size: 18px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+  }
+  input:focus {
+    border: 2px solid blue;
+    outline: none;
+  }
+  input[type="submit"] {
+    text-align: center;
+    padding: 10px 15px;
+    width: 300px;
+    cursor: pointer;
+    background-color: $join;
+  }
+}
+
+.ifid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 380px;
+  height: 200px;
+  text-align: center;
+  background-color: rgb(235, 248, 255);
+  border-radius: 10px;
+  flex-direction: column;
+  padding: 10px 0px;
+  box-shadow: $shadow;
+  a {
+    width: 300px;
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  a:first-child {
+    margin-top: 15px;
+    background-color: gray;
+    opacity: 0.8;
+  }
+  a:nth-child(2) {
+    background-color: $kakao;
+    opacity: 0.9;
+  }
+  a:last-child {
+    background-color: $join;
+    opacity: 0.9;
+  }
+}
+
+.profile-form {
+  input {
+    margin-bottom: 15px;
+  }
+  a {
+    padding: 10px;
+    border: none;
+    box-shadow: $shadow;
+    border-radius: 5px;
+    text-decoration: underline;
+  }
+  label {
+    margin-left: 55px;
+    width: 100%;
+    align-items: start;
+    margin-bottom: 10px;
+  }
+}

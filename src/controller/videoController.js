@@ -121,7 +121,7 @@ export const search = async (req, res) => {
       title: { $regex: new RegExp(keyword, "i") },
       //regex->레귤러 익스프레스? 인듯
       //`^${keword}` -> 키워드로 시작하는 것 찾을수있음  `${keyword}$` ->키워드로 끝나는거 찾을수있음
-    });
+    }).populate("owner");
   }
   return res.render("search", { pageTitle: "Search", videos });
 };

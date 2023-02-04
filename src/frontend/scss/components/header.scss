@@ -6,23 +6,24 @@ header {
   align-items: center;
   .header__logo {
     color: red;
+    font-size: 70px;
   }
   ul {
     display: flex;
     width: 90%;
+    justify-content: end;
   }
   li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
     margin: 0px 10px;
-  }
-  i {
-    font-size: 70px;
-  }
-  .header__btn {
     border-radius: 10px;
-    padding: 10px 20px;
-    background-color: rgb(209, 225, 255);
   }
-  .join {
-    background-color: rgb(188, 255, 229);
+  .header__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
   }
 }

@@ -7,10 +7,11 @@
 @import "components/footer.scss";
 @import "components/video.scss";
 @import "components/shared.scss";
+@import "components/forms.scss";
 //screen
 @import "screens/home.scss";
 @import "screens/search.scss";
-
+@import "screens/profile.scss";
 //default
 a {
   color: inherit;

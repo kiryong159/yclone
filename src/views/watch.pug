@@ -10,7 +10,7 @@ block contents
   div
     small=nowvideo.hashtags
   div
-     img(src=`${nowvideo.owner.avatarUrl}` width="50",height="50")  
+     img(src=`/${nowvideo.owner.avatarUrl}` width="50",height="50")  
      small Uploaded by 
       a(href=`/user/${nowvideo.owner._id}`) #{nowvideo.owner.name}
   if String(nowvideo.owner._id) === String(loggedInuser._id) 

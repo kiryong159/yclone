@@ -3,18 +3,21 @@ header
         <i class="fa-brands fa-youtube header__logo"></i>
     ul
         li 
-            a(href="/search") Search Video
-        li 
-            if loggedIn 
+            a(href="/search") Search Video 
+        if loggedIn 
                 li
-                    a(href="/video/upload") Upload Video &rarr;
+                    a(href="/video/upload") Upload Video
                 li 
-                    a(href="/user/edit") 프로필수정
+                    a(href="/user/edit") Edit Profile
                 li 
                     a(href="/user/logout") Logout 
                 li 
-                    a(href=`/user/${loggedInuser._id}`) #{loggedInuser.name}의 profile
-            else 
+                    a(href=`/user/${loggedInuser._id}`) 
+                        if !loggedInuser.avatarUrl
+                            span #{loggedInuser.name}의 프로필
+                        else 
+                            img(src="/"+loggedInuser.avatarUrl).header__avatar
+        else            
                 li
                     a(href="/join").header__btn.join JOIN
                 li  

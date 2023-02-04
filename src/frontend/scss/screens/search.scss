@@ -12,5 +12,10 @@
   input[type="submit"] {
     text-align: center;
     padding: 5px 25px;
+    cursor: pointer;
+  }
+  input:focus {
+    border: 2px solid blue;
+    outline: none;
   }
 }
