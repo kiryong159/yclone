@@ -2,10 +2,9 @@ import Video from "../models/Video";
 import User from "../models/User";
 
 export const home = async (req, res) => {
-  const videos = await Video.find({});
+  const videos = await Video.find({}).populate("owner");
   return res.render("home", {
     pageTitle: "Home",
-    potato: "tomato",
     videos,
   });
 };

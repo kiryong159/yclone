@@ -1,10 +1,8 @@
 mixin sweetpotato(info)
-  div
-    h4 
-      a(href=`/video/${info.id}`)=info.title
-    p 영상 설명 : #{info.description}.
-    ul
-    each banana in info.hashtags
-       li=banana
-    small #{info.createdAt}.
-    hr
+  a(href=`/video/${info.id}`).video-mixin
+      div.video-mixin__thumb 
+      div.video-mixin__data 
+        span.video-mixin__title=info.title 
+        div.video-mixin__meta
+          span #{info.owner.name}  •  
+          span #{info.meta.views}회

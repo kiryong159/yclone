@@ -16,7 +16,7 @@
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/style.scss */ \"./src/frontend/scss/style.scss\");\n\nconst hello = async () => {\n  alert(\"hello~\");\n  const x = await fetch(\"\");\n};\nhello();\n\n//# sourceURL=webpack://yclone/./src/frontend/js/main.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _scss_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scss/style.scss */ \"./src/frontend/scss/style.scss\");\n\n\n//# sourceURL=webpack://yclone/./src/frontend/js/main.js?");
 
 /***/ }),
 

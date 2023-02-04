@@ -2,14 +2,11 @@ extends base.pug
 include mixin/video.pug
 
 block contents 
-    form(method="GET")
-        input(placeholder="serch video" type="text" name="keyword")
+    form(method="GET").search__form
+        input(placeholder="Serch video" type="text" name="keyword")
         input(type="submit" value="검색하기")
-    div   
+    div.videos-grid   
         each gtx3070 in videos
             +sweetpotato(gtx3070)
-
-
-
-    small  
-        a(href="/") HOME
+        else 
+            span.empty__message  No videos found.

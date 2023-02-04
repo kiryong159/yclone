@@ -3,28 +3,11 @@ include mixin/video.pug
 
 
 block contents
-    h1 Yclone - Homepage 
-    span I love #{potato}
-    br
-    a(href="/video/upload") Upload Video &rarr;
-    br
-    a(href="/search") Search Video
-    br
-    if loggedIn 
-        a(href="/user/edit") 프로필수정
-        br
-        a(href="/user/logout") Logout 
-        br
-        a(href=`/user/${loggedInuser._id}`) #{loggedInuser.name}의 profile
-    else 
-        a(href="/join") JOIN
-        br
-        a(href="/login") LOGIN
-        div
-    each potato in videos 
-        +sweetpotato(potato)
-    else 
-        li sorry not found.
+    div.videos-grid
+        each potato in videos 
+            +sweetpotato(potato)
+        else 
+            span.empty__message No videos found.
 //- videos의 오브젝트를 potato에 담고 sweetpotato에 potato를 입력
 //- 각각 영상마다 가진 변수를 하나씩 입력해줌
 

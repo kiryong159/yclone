@@ -1,0 +1,22 @@
+header
+    a(href="/")
+        <i class="fa-brands fa-youtube header__logo"></i>
+    ul
+        li 
+            a(href="/search") Search Video
+        li 
+            if loggedIn 
+                li
+                    a(href="/video/upload") Upload Video &rarr;
+                li 
+                    a(href="/user/edit") 프로필수정
+                li 
+                    a(href="/user/logout") Logout 
+                li 
+                    a(href=`/user/${loggedInuser._id}`) #{loggedInuser.name}의 profile
+            else 
+                li
+                    a(href="/join").header__btn.join JOIN
+                li  
+                    a(href="/login").header__btn LOGIN
+    
