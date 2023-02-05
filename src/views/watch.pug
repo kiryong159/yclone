@@ -1,21 +1,12 @@
 extends base.pug 
 
 block contents
-  h1 #{nowvideo.title} | Yclone - Watch Video
-
   video(src="/"+nowvideo.fileUrl controls) 
-  h3 설명 : #{nowvideo.description}
-
-  small=nowvideo.createdAt
-  div
-    small=nowvideo.hashtags
-  div
-     img(src=`/${nowvideo.owner.avatarUrl}` width="50",height="50")  
-     small Uploaded by 
-      a(href=`/user/${nowvideo.owner._id}`) #{nowvideo.owner.name}
-  if String(nowvideo.owner._id) === String(loggedInuser._id) 
-    h5 
-      a(href=`${nowvideo.id}/edit`) Edit video &rarr;
-      br
-      a(href=`${nowvideo.id}/delete`) Delete Video &rarr;
-  a(href="/") GO home &rarr;
+  div 
+    button#play Play 
+    button#mute Mute 
+    span#time 00:00/00:00
+    input(type="range" min="0" value=0.5 max="1" step="0.1")#volume
+ 
+block scripts 
+  script(src="/static/js/videoplayer.js") 
