@@ -3,17 +3,20 @@ extends base.pug
 block contents
   div#videoContainer
     video(src="/"+nowvideo.fileUrl) 
-    div 
-      button#play Play 
-      button#mute Mute 
-      input(type="range" min="0" value=0.5 max="1" step="0.1")#volume
-      div
+    div#videoController 
+      span.videobtn.playbtn
+        i#playicon.fas.fa-play
+      div.timefont
         span#currentTime 00:00
         span  / 
         span#totalTime 00:00
-      div 
+      div.timeline 
         input(type="range" min="0" value=0.0 step="1")#timeline
+      span.videobtn
+        i#muteicon.fa-solid.fa-volume-high
+      input(type="range" min="0" value=0.5 max="1" step="0.1")#volume.volbox
       div 
-        button#fullscreen Enter Full Screen
+        span.videobtn
+          i#fullscreen.fa-solid.fa-expand
 block scripts 
   script(src="/static/js/videoplayer.js") 

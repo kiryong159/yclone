@@ -1,0 +1,51 @@
+#videoContainer {
+  width: 100%;
+  position: relative;
+  video {
+    width: 100%;
+  }
+  #videoController {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    position: absolute;
+    bottom: 30px;
+    left: 27px;
+    width: 95%;
+    padding: 15px 15px;
+    border: 1px solid black;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.705);
+    border-radius: 15px;
+    &.showing {
+      opacity: 1;
+    }
+  }
+  .videobtn {
+    width: 3%;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+  }
+  .timefont {
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+  }
+  .timeline {
+    width: 60%;
+    margin: 0 auto;
+  }
+  #timeline {
+    width: 100%;
+  }
+  .volbox {
+    width: 10%;
+    margin: 0 auto;
+  }
+  .playbtn {
+    margin: 0 auto;
+  }
+}
