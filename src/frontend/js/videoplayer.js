@@ -124,12 +124,18 @@ const handelkeydown = (event) => {
   }
 };
 
+const handleEnded = () => {
+  const id = videoContainer.dataset.id;
+  fetch(`/api/video/${id}/view`, { method: "post" });
+};
+
 playicon.addEventListener("click", handelPlayClick);
 muteicon.addEventListener("click", handelmute);
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadedmetadata", handleloadedmetadata);
 video.addEventListener("timeupdate", handletimeupdate);
 video.addEventListener("click", handelvideoclick);
+video.addEventListener("ended", handleEnded);
 timeline.addEventListener("input", handletimelinechange);
 timeline.addEventListener("mousedown", timelineMousedown);
 timeline.addEventListener("mouseup", timelineMouseup);

@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     main: "./src/frontend/js/main.js",
     videoplayer: "./src/frontend/js/videoplayer.js",
+    recorder: "./src/frontend/js/recorder.js",
   },
   mode: "development",
   watch: true,

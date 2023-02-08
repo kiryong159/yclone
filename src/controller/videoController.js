@@ -129,3 +129,14 @@ export const search = async (req, res) => {
 // req.body = > form으로 POST 한것의 정보
 // req.params => router/~~ 에서 ~~의정보 ex) video/:potato -> req.params.potato  ->potato의정보를가져옴
 // req.query = > form으로 GET 한것의 정보 / 주소창에 ? 뒤에 붙어있는듯함.
+
+export const registerView = async (req, res) => {
+  const { id } = req.params;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  video.meta.views = video.meta.views + 1;
+  await video.save();
+  return res.sendStatus(200);
+};
