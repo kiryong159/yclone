@@ -4,6 +4,7 @@ const previewBtn = document.getElementById("previewBtn");
 
 let stream;
 let recorder;
+let videoFile;
 
 const handleStart = () => {
   recordStartbtn.innerText = "Stop Record";
@@ -11,7 +12,7 @@ const handleStart = () => {
   recordStartbtn.addEventListener("click", handleStop);
   recorder = new MediaRecorder(stream);
   recorder.ondataavailable = (e) => {
-    const videoFile = URL.createObjectURL(e.data);
+    videoFile = URL.createObjectURL(e.data);
     preview.srcObject = null;
     preview.src = videoFile;
     preview.loop = true;
@@ -27,7 +28,13 @@ const handleStop = () => {
   recordStartbtn.addEventListener("click", handleDownload);
 };
 
-const handleDownload = () => {};
+const handleDownload = () => {
+  const a = document.createElement("a");
+  a.href = videoFile;
+  a.download = "My Record.webm";
+  document.body.appendChild(a);
+  a.click();
+};
 
 const init = async () => {
   stream = await navigator.mediaDevices.getUserMedia({
