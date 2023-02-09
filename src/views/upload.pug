@@ -2,7 +2,9 @@ extends base.pug
 
 block contents
     div
-        button#recordStartbtn record Start
+        video#preview
+        button#previewBtn 녹화영상미리보기
+        button#recordStartbtn Start Record
     if ERRMSG 
         H1 에러메시지 : #{ERRMSG}
     div.form-box 
