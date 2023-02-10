@@ -178,7 +178,6 @@ export const finishKakao = async (req, res) => {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-        property_keys: ["kakao_account.email"],
       })
     ).json();
     //.json() 안해주면 데이터 이상한거 줌
