@@ -18,7 +18,10 @@ Videorouter.route("/:id([0-9a-f]{24})/edit")
 Videorouter.route("/upload")
   .all(ProtectMiddleware)
   .get(getUpload)
-  .post(videoUploadMiddleware.single("video"), postUpload);
+  .post(
+    videoUploadMiddleware.fields([{ name: "video" }, { name: "thumb" }]),
+    postUpload
+  );
 Videorouter.route(`/:id([0-9a-f]{24})/delete`)
   .all(ProtectMiddleware)
   .get(deleteVideo);

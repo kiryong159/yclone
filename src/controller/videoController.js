@@ -71,13 +71,15 @@ export const postUpload = async (req, res) => {
   const videoname = req.body.uploadname;
   const { description, hashtags } = req.body;
   const TIMEDIFF = 9 * 60 * 60 * 1000;
-  const file = req.file;
+  const { video, thumb } = req.files;
+  console.log(video, thumb);
   // 여기 ↓사용  비디오 모델
   try {
     const newVideo = await Video.create({
       owner: id,
       title: videoname,
-      fileUrl: file.path,
+      fileUrl: video[0].path,
+      thumbUrl: thumb[0].path,
       description,
       hashtags: Video.FormatHashtags(hashtags),
       createdAt: Date.now() + TIMEDIFF,

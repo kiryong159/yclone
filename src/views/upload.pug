@@ -1,19 +1,24 @@
 extends base.pug
 
 block contents
-    div
-        video#preview
-        button#previewBtn 녹화 화면 미리 보기
-        button#recordStartbtn Start Record
+    div.upload__container
+        div.upload__video
+            video#preview
+            button#recordActionbtn Start Record
     if ERRMSG 
         H1 에러메시지 : #{ERRMSG}
     div.form-box 
-        form(method="POST" enctype="multipart/form-data").join-loginform
-            label(for="video")
+        form(method="POST" enctype="multipart/form-data").join-loginform.profile-form
+            label(for="video") Video File
             input(type="file" id="video" name="video" accept="video/*" required)
-            input(name="uploadname" type="text" placeholder="VIDEO NAME(최대30자)" required maxlength=30)
-            input(name="description" type="text" placeholder="영상 설명(최소10자)" required minlength=10 )
-            input(name="hashtags" type="text" placeholder="콤마로 구분해주세요" required )
+            label(for="thumb") Thumbnail File
+            input(type="file" id="thumb" name="thumb" accept="image/*" required)
+            label(for="uploadname") VIDEO NAME
+            input(name="uploadname" id="uploadname" type="text" placeholder="VIDEO NAME(최대30자)" required maxlength=30)
+            label(for="uploaddescription") Video Description
+            input(name="description" type="text" id="uploaddescription" placeholder="영상 설명" required minlength=2 )
+            label(for="Hashtag") Hashtag
+            input(name="hashtags" type="text" id="Hashtag" placeholder="콤마로 구분해주세요" required )
             input(type="submit" value="upload")
 block scripts
     script(src="/static/js/recorder.js") 
