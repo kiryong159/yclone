@@ -1,8 +1,9 @@
 extends base.pug
 
 block contents 
-    form(method="post")
-        input(type="password" name="oldPW" placeholder="old passworcd" required)
-        input(type="password" name="newPW" placeholder="new passworcd" required)
-        input(type="password" name="newPW1" placeholder="check new passworcd" required)
-        input(type="submit" value="변경!")
+    div.form-box    
+        form(method="post").join-loginform.profile-form
+            input(type="password" name="oldPW" placeholder="old passworcd" required)
+            input(type="password" name="newPW" placeholder="new passworcd" required)
+            input(type="password" name="newPW1" placeholder="check new passworcd" required)
+            input(type="submit" value="변경!")

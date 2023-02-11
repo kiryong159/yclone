@@ -17,6 +17,27 @@ block contents
       input(type="range" min="0" value=0.5 max="1" step="0.1")#volume.volbox
       div 
         span.videobtn
-          i#fullscreen.fa-solid.fa-expand
+          i#fullscreen.fa-solid.fa-expand 
+  
+  h1=nowvideo.title
+  div 
+    small Upload Time : #{nowvideo.createdAt}
+    div.userbox
+      div.uploadedbox
+        img(src=`/${nowvideo.owner.avatarUrl}` width="50",height="50" style="border-radius:50%;")  
+        div.uploadedbox__text 
+          span.linkspan
+            a(href=`/user/${nowvideo.owner._id}`) #{nowvideo.owner.name}
+          span.viewspan 조회수 #{nowvideo.meta.views}
+      if String(nowvideo.owner._id) === String(loggedInuser._id) 
+        div.editDeletebox 
+          span
+            a(href=`${nowvideo.id}/edit`) Edit video
+          span  
+            a(href=`${nowvideo.id}/delete`) Delete Video  
+    div.discriptionbox
+      h3 비디오 설명 : #{nowvideo.description}
+      small Hashtags : #{nowvideo.hashtags}
+
 block scripts 
   script(src="/static/js/videoplayer.js") 

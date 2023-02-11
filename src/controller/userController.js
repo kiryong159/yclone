@@ -53,10 +53,12 @@ export const postlogin = async (req, res) => {
   }
   req.session.loggedIn = true;
   req.session.user = user;
+  req.flash("info", "Hello~");
   return res.redirect("/");
 };
 
 export const logout = (req, res) => {
+  req.flash("info", "bye~");
   req.session.destroy();
   return res.redirect("/");
 };
@@ -126,6 +128,7 @@ export const finishGithub = async (req, res) => {
     // DB와 깃헙의 이메일이 동일한 사람이 나타나면 로그인 시켜줌.
     req.session.loggedIn = true;
     req.session.user = user;
+    req.flash("info", "Hello~");
     return res.redirect("/");
   } else {
     return res.redirect("/login");
@@ -198,6 +201,7 @@ export const finishKakao = async (req, res) => {
     }
     req.session.loggedIn = true;
     req.session.user = user;
+    req.flash("info", "Hello~");
     return res.redirect("/");
   } else {
     //엑세스 토큰없을때
@@ -218,7 +222,7 @@ export const postUseredit = async (req, res) => {
   if (req.session.user.username !== username) {
     const findUser = await User.exists({ username: username });
     if (findUser) {
-      console.log("중복감지");
+      req.flash("error", "username중복입니다.");
       return res.redirect("/");
     }
   }
@@ -226,7 +230,7 @@ export const postUseredit = async (req, res) => {
     const findEmail = await User.findOne({ email: email });
     console.log(findEmail);
     if (findEmail) {
-      console.log("중복감지");
+      req.flash("error", "email중복입니다.");
       return res.redirect("/");
     }
   }
@@ -243,11 +247,13 @@ export const postUseredit = async (req, res) => {
   );
 
   req.session.user = updatedUser;
+  req.flash("info", "변경 성공");
   return res.redirect("/");
 };
 
 export const getChangePW = (req, res) => {
   if (req.session.user.socialOnly === true) {
+    req.flash("error", "깃헙,카카오 아이디는 비밀번호가 없습니다.");
     return res.redirect("/");
   }
   return res.render("changepw", { pageTitle: "Change Password" });
@@ -264,13 +270,14 @@ export const postChangePW = async (req, res) => {
   const user = await User.findById(_id);
   const comparePW = await bcrypt.compare(oldPW, user.password);
   if (!comparePW) {
-    console.log("oldPW !== password");
+    req.flash("error", "이전 비밀번호가 틀렸습니다.");
     return res.status(400).redirect("changepw");
   }
   if (newPW !== newPW1) {
-    console.log("newPW !== NewPW1");
+    req.flash("error", "새로운비밀번호/비밀번호확인 이 틀렸습니다.");
     return res.status(400).redirect("changepw");
   }
+  req.flash("info", "변경성공");
   user.password = newPW;
   await user.save();
   // save를 해야지 비밀번호가 hash화 됨
@@ -287,6 +294,7 @@ export const seeUser = async (req, res) => {
     populate: { path: "owner", model: "user" },
   });
   if (!user) {
+    req.flash("error", "유저를 찾을수 없습니다.");
     return res.status(404).render("404");
   }
   return res.render("profile", {
