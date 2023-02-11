@@ -20,6 +20,7 @@ export const VideoGetEdit = async (req, res) => {
       `로그인 중인 아이디${String(req.session.user._id)}`,
       `비디오 주인${String(nowvideo.owner)}`
     );
+    req.flash("error", "비디오의 주인이 아닙니다.");
     return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Edit`, nowvideo });
@@ -28,7 +29,7 @@ export const VideoGetEdit = async (req, res) => {
 export const VideoPostEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
-  const nowvideo = await Video.findById({ id });
+  const nowvideo = await Video.findById(id);
   if (!nowvideo) {
     return res.status(404).render("404", { pageTitle: "Video Not Found" });
   }
@@ -37,6 +38,7 @@ export const VideoPostEdit = async (req, res) => {
       `로그인 중인 아이디${String(req.session.user._id)}`,
       `비디오 주인${String(nowvideo.owner)}`
     );
+    req.flash("error", "비디오의 주인이 아닙니다.");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
@@ -44,6 +46,7 @@ export const VideoPostEdit = async (req, res) => {
     description,
     hashtags: Video.FormatHashtags(hashtags),
   });
+  req.flash("info", "비디오 업데이트 완료");
   return res.redirect(`/video/${id}`);
 };
 
@@ -108,9 +111,11 @@ export const deleteVideo = async (req, res) => {
       `로그인 중인 아이디${String(req.session.user._id)}`,
       `비디오 주인${String(nowvideo.owner)}`
     );
+    req.flash("error", "비디오 주인이 아닙니다.");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndDelete(id);
+  req.flash("info", "삭제 완료");
   return res.redirect("/");
   // 지워도 user.videos 에 남아있음
 };

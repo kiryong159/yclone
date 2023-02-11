@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import Videorouter from "./routers/videoRouter";
@@ -40,7 +41,7 @@ app.use((req, res, next) => {
   next();
   // ffmpeg 실행시 ) ReferenceError: SharedArrayBuffer is not defined 에러 발생시 router이전에 작성해줘야함
 });
-
+app.use(flash());
 app.use(loacalsmiddelware);
 // pug는 res.locals와 통신할수있음 -> router 가기전에 미들웨어로 req.session값을 local과 이어주면 어디에서나 사용가능
 app.use("/uploads", express.static("uploads"));

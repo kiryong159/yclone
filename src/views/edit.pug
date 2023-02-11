@@ -2,12 +2,12 @@ extends base.pug
 
 
 block contents
-    h1 Yclone - Edit Video
-    div
-        a(href="/") go home
-
-    form(method="POST")
-        input(name="title" type="text" value=`${nowvideo.title}` required placeholder="edit name" maxlength=30)
-        input(name="description" type="text" placeholder="영상 설명(최소10자)" required minlength=10  value=nowvideo.description)
-        input(name="hashtags" type="text" placeholder="콤마로 구분해주세요" required value=nowvideo.hashtags.join())
-        input(type="submit" value="save")
+    div.form-box 
+        form(method="POST").join-loginform.profile-form
+            label(for="edittitle") Video Title
+            input(name="title" id="edittitle" type="text" value=`${nowvideo.title}` required placeholder="edit name" maxlength=30)
+            label(for="editdescription") Video description
+            input(name="description" id="editdescription" type="text" placeholder="영상 설명(최소10자)" required minlength=10  value=nowvideo.description)
+            label(for="edithashtags") Video hashtags
+            input(name="hashtags" id="edithashtags" type="text" placeholder="콤마로 구분해주세요" required value=nowvideo.hashtags.join())
+            input(type="submit" value="Save")

@@ -15,6 +15,7 @@ export const ProtectMiddleware = (req, res, next) => {
   if (req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error", "Not authorized");
     return res.redirect("/");
   }
 };
@@ -23,8 +24,9 @@ export const PublicMiddleware = (req, res, next) => {
   if (!req.session.loggedIn) {
     return next();
   } else {
+    req.flash("error", "Not authorized");
+    return res.redirect("/");
   }
-  return res.redirect("/");
 };
 
 export const avatarUploadMiddleware = multer({

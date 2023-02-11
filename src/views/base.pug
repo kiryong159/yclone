@@ -1,3 +1,4 @@
+include mixin/flash.pug
 doctype html
 html(lang="kr")
     head
@@ -8,6 +9,10 @@ html(lang="kr")
         link(rel="stylesheet", href="/static/css/style.css")
         title #{pageTitle} | #{siteName}
     body 
+        if messages.error 
+            +flashtomato("error",messages.error)
+        if messages.info 
+            +flashtomato("info",messages.info)
         include partials/header.pug
         main
             block contents
