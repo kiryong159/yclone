@@ -8,6 +8,7 @@ const timeline = document.getElementById("timeline");
 const fullscreen = document.getElementById("fullscreen");
 const videoContainer = document.getElementById("videoContainer");
 const videoController = document.getElementById("videoController");
+const textarea = document.getElementById("textarea");
 
 let volumeValue = 0.5;
 let controlsTimeout = null;
@@ -118,10 +119,17 @@ const handleMouseleave = () => {
 
 const handelkeydown = (event) => {
   if (event.key === ` `) {
-    handelvideoclick();
+    if (event.target !== textarea) {
+      event.preventDefault();
+      return handelvideoclick();
+    }
+    return;
   }
   if ((event.key === "m") | "M") {
-    handelmute();
+    if (event.target !== textarea) {
+      return handelmute();
+    }
+    return;
   }
 };
 

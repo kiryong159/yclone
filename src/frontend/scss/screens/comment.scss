@@ -1,0 +1,70 @@
+.video__comment-form {
+  display: flex;
+}
+.video__add-comments {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  box-shadow: $shadow;
+  border-radius: 15px;
+  padding: 15px;
+  textarea {
+    width: 90%;
+    height: 60px;
+    resize: none;
+    border: none;
+    outline: none;
+    font-size: 18px;
+  }
+  button {
+    width: 10%;
+    border-radius: 15px;
+    border: none;
+    box-shadow: $shadow;
+    background-color: $login;
+    font-weight: bold;
+    font-size: 15px;
+  }
+}
+
+.notlogin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-size: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.video__comments {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 45px;
+  width: 100%;
+  border: none;
+  border-radius: 20px;
+  box-shadow: $shadow;
+  padding: 10px 25px;
+  li {
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: $shadow;
+    padding: 10px;
+  }
+  .absoluteComment {
+    position: absolute;
+    left: 10px;
+    top: -30px;
+    font-weight: bold;
+    font-size: 25px;
+  }
+}

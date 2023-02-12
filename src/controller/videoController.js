@@ -1,5 +1,6 @@
 import Video from "../models/Video";
 import User from "../models/User";
+import Comment from "../models/Comment";
 
 export const home = async (req, res) => {
   const videos = await Video.find({}).populate("owner");
@@ -54,7 +55,9 @@ export const watchVideo = async (req, res) => {
   const id = req.params.idpotato;
   // ES6문법 작성시 >>const {id} = req.params
   //  모델.findbyid
-  const nowvideo = await Video.findById(id).populate("owner");
+  const nowvideo = await Video.findById(id)
+    .populate("owner")
+    .populate("Comment");
   if (nowvideo) {
     return res.render("watch", {
       pageTitle: `${nowvideo.title}`,
@@ -146,4 +149,25 @@ export const registerView = async (req, res) => {
   video.meta.views = video.meta.views + 1;
   await video.save();
   return res.sendStatus(200);
+};
+
+export const createComment = async (req, res) => {
+  const {
+    session: { user },
+    body: { text },
+    params: { id },
+  } = req;
+
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  const comment = await Comment.create({
+    text,
+    owner: user._id,
+    video: id,
+  });
+  video.Comment.push(comment._id);
+  video.save();
+  return res.sendStatus(201);
 };
