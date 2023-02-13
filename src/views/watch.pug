@@ -1,4 +1,7 @@
 extends base.pug 
+block scripts 
+  script(src="/static/js/videoplayer.js") 
+  script(src="/static/js/commentSection.js")
 
 block contents
   div#videoContainer(data-id=nowvideo._id)
@@ -41,19 +44,18 @@ block contents
     if loggedIn
       div.video__add-comments
         form.video__comment-form#commentForm
-          textarea#textarea(cols="30", rows="10" placeholder="Write a nice comment...")
+          textarea(cols="30", rows="10" placeholder="Write a nice comment...")
           button Add Comment
     else
       div.notlogin
         span 로그인을 하셔야 댓글작성이 가능합니다. 
     div.video__comments
       span.absoluteComment Comment
-      //- if !nowvideo.Comment
-      //-   span Not Comment
-      //- else
       ul
         each sexycomment in nowvideo.Comment.reverse()
-          li=sexycomment.text
-      block scripts 
-  script(src="/static/js/videoplayer.js") 
-  script(src="/static/js/commentSection.js")
+          li.comment_li
+            span #{sexycomment.text}
+            if String(sexycomment.owner) === String(loggedInuser._id)
+              div.Comment_iconbox
+                i.removeComment.fas.fa-trash(data-id=sexycomment._id)
+                i.editComment.fas.fa-pen-to-square(data-id=sexycomment._id)

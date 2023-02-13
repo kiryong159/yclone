@@ -52,7 +52,6 @@
   box-shadow: $shadow;
   padding: 10px 25px;
   li {
-    margin: 0 auto;
     margin-top: 15px;
     margin-bottom: 15px;
     border: none;
@@ -66,5 +65,43 @@
     top: -30px;
     font-weight: bold;
     font-size: 25px;
+  }
+}
+
+.comment_li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  form {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.textarea {
+  //댓글 수정창
+  display: flex;
+  max-width: 90%;
+  height: 50px;
+  resize: none;
+  border: none;
+  outline: none;
+  font-size: 18px;
+}
+
+.submitBtn {
+  width: 10%;
+  border-radius: 15px;
+  border: none;
+  box-shadow: $shadow;
+  background-color: $login;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.Comment_iconbox {
+  i {
+    margin: 10px;
+    font-size: 15px;
   }
 }

@@ -169,5 +169,32 @@ export const createComment = async (req, res) => {
   });
   video.Comment.push(comment._id);
   video.save();
-  return res.sendStatus(201);
+  return res.status(201).json({ newCommentId: comment._id });
+};
+
+export const CommentDelete = async (req, res) => {
+  const {
+    session: { user },
+    params: { id },
+    body: { CommentId },
+  } = req;
+  const commentfind = await Comment.findById(CommentId);
+  if (String(commentfind.owner) !== String(user._id)) {
+    req.flash("error", "댓글 작성자 가 아닙니다.");
+    return res.sendStatus(404);
+  }
+  const video = await Video.findById(id);
+  await Comment.findByIdAndDelete(CommentId);
+  return res.sendStatus(200);
+};
+
+export const postcommentEdit = async (req, res) => {
+  const id = req.body.commentId;
+  const text = req.body.editvalue;
+  const updatecomment = await Comment.findByIdAndUpdate(id, { text });
+  if (!updatecomment) {
+    req.flash("error", " 코멘트를 찾지못했습니다.");
+    return res.sendStatus(404);
+  }
+  return res.sendStatus(200);
 };
