@@ -145,7 +145,7 @@ export const loginKakao = (req, res) => {
   const config = {
     response_type: "code",
     client_id: process.env.KAKAO_REST_API_KEY,
-    redirect_uri: "http://localhost:4000/user/kakaofinish",
+    redirect_uri: "https://ggrongsyclone.fly.dev/user/kakaofinish",
     scope: "account_email,profile_nickname",
   };
   const params = new URLSearchParams(config).toString();
@@ -159,7 +159,7 @@ export const finishKakao = async (req, res) => {
     //Required O 인것들
     grant_type: "authorization_code",
     client_id: process.env.KAKAO_REST_API_KEY,
-    redirect_uri: "http://localhost:4000/user/kakaofinish",
+    redirect_uri: "https://ggrongsyclone.fly.dev/user/kakaofinish",
     code: req.query.code,
   };
   const params = new URLSearchParams(config).toString();
