@@ -16,7 +16,10 @@ header
                         if !loggedInuser.avatarUrl
                             span #{loggedInuser.name}의 프로필
                         else 
-                            img(src="/"+loggedInuser.avatarUrl).header__avatar
+                            if loggedInuser.socialOnly 
+                                img(src=loggedInuser.avatarUrl).header__avatar
+                            else
+                                img(src="/"+loggedInuser.avatarUrl).header__avatar
         else            
                 li
                     a(href="/join").header__btn.join JOIN

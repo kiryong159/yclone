@@ -7,7 +7,7 @@ const Userschema = new mongoose.Schema({
   avatarUrl: String,
   socialOnly: { type: Boolean, default: false },
   password: { type: String },
-  name: { type: String, required: true },
+  name: { type: String },
   location: String,
   Comment: { type: mongoose.Schema.Types.ObjectId, ref: `Comment` },
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
