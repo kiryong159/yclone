@@ -234,7 +234,7 @@ export const postUseredit = async (req, res) => {
       return res.redirect("/");
     }
   }
-  console.log(file);
+  const isFly = process.env.NODE_ENV === "production";
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
@@ -242,7 +242,7 @@ export const postUseredit = async (req, res) => {
       name,
       username,
       email,
-      avatarUrl: file ? file.location : avatarUrl,
+      avatarUrl: file ? (isFly ? file.location : file.path) : avatarUrl,
     },
     { new: true }
   );

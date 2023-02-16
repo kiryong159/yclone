@@ -10,10 +10,26 @@ const s3 = new S3Client({
   },
 });
 
-const multerUploader = multerS3({
+const s3ImageUploader = multerS3({
+  s3: s3,
+  bucket: `ggrongsyclone`,
+  acl: "public-read",
+  key: function (req, file, cb) {
+    const newfilename = Date.now() + "-" + file.originalname;
+    const fullpath = "images/" + newfilename;
+    cb(null, fullpath);
+  },
+});
+
+const s3FileUploader = multerS3({
   s3: s3,
   bucket: "ggrongsyclone",
   acl: "public-read",
+  key: function (req, file, cb) {
+    const newfilename = Date.now() + "-" + file.originalname;
+    const fullpath = "videos/" + newfilename;
+    cb(null, fullpath);
+  },
 });
 
 export const loacalsmiddelware = (req, res, next) => {
@@ -45,13 +61,16 @@ export const PublicMiddleware = (req, res, next) => {
   }
 };
 
+const isFly = process.env.NODE_ENV === "production";
+// process.env.NODE_ENV 는  fly heroku 같은 웹사이트에서만 production 상태이기때문에 웹에있는지 로컬에있는지 확인이 가능함
+
 export const avatarUploadMiddleware = multer({
   dest: `uploads/avatars`,
   limits: { fileSize: 1500000 },
-  storage: multerUploader,
+  storage: isFly ? s3ImageUploader : undefined,
 });
 export const videoUploadMiddleware = multer({
   dest: `uploads/videos`,
   limits: { fileSize: 10000000 },
-  storage: multerUploader,
+  storage: isFly ? s3FileUploader : undefined,
 });
