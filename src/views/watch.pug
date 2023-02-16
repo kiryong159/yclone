@@ -5,7 +5,7 @@ block scripts
 
 block contents
   div#videoContainer(data-id=nowvideo._id)
-    video(src="/"+nowvideo.fileUrl) 
+    video(src=nowvideo.fileUrl) 
     div#videoController 
       span.videobtn.playbtn
         i#playicon.fas.fa-play
@@ -27,7 +27,7 @@ block contents
     small Upload Time : #{nowvideo.createdAt}
     div.userbox
       div.uploadedbox
-        img(src=`/${nowvideo.owner.avatarUrl}` width="50",height="50" style="border-radius:50%;")  
+        img(src=`${nowvideo.owner.avatarUrl}` width="50",height="50" style="border-radius:50%;")  
         div.uploadedbox__text 
           span.linkspan
             a(href=`/user/${nowvideo.owner._id}`) #{nowvideo.owner.name}

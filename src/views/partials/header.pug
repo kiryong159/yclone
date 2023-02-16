@@ -19,7 +19,7 @@ header
                             if loggedInuser.socialOnly 
                                 img(src=loggedInuser.avatarUrl).header__avatar
                             else
-                                img(src="/"+loggedInuser.avatarUrl).header__avatar
+                                img(src=loggedInuser.avatarUrl).header__avatar
         else            
                 li
                     a(href="/join").header__btn.join JOIN

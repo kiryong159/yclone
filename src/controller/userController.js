@@ -234,6 +234,7 @@ export const postUseredit = async (req, res) => {
       return res.redirect("/");
     }
   }
+  console.log(file);
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
@@ -241,7 +242,7 @@ export const postUseredit = async (req, res) => {
       name,
       username,
       email,
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? file.location : avatarUrl,
     },
     { new: true }
   );
