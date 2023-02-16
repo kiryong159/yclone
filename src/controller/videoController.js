@@ -78,7 +78,6 @@ export const postUpload = async (req, res) => {
   const { description, hashtags } = req.body;
   const TIMEDIFF = 9 * 60 * 60 * 1000;
   const { video, thumb } = req.files;
-  console.log(video, thumb);
   // 여기 ↓사용  비디오 모델
   try {
     const newVideo = await Video.create({
