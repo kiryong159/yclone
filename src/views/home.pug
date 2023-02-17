@@ -4,7 +4,7 @@ include mixin/video.pug
 
 block contents
     div.videos-grid
-        each potato in videos 
+        each potato in videos.reverse() 
             +sweetpotato(potato)
         else 
             span.empty__message No videos found.

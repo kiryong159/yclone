@@ -44,7 +44,7 @@ block contents
     if loggedIn
       div.video__add-comments
         form.video__comment-form#commentForm
-          textarea#textarea(cols="30", rows="10" placeholder="Write a nice comment...")
+          textarea.textarea(cols="30", rows="10" placeholder="Write a nice comment...")
           button Add Comment
     else
       div.notlogin
@@ -54,8 +54,11 @@ block contents
       ul
         each sexycomment in nowvideo.Comment.reverse()
           li.comment_li
-            span #{sexycomment.text}
-            if String(sexycomment.owner) === String(loggedInuser._id)
-              div.Comment_iconbox
-                i.removeComment.fas.fa-trash(data-id=sexycomment._id)
-                i.editComment.fas.fa-pen-to-square(data-id=sexycomment._id)
+             span #{sexycomment.text}
+             if String(sexycomment.owner) === String(loggedInuser._id)
+               div.Comment_iconbox
+                 i.removeComment.fas.fa-trash(data-id=sexycomment._id)
+                 i.editComment.fas.fa-pen-to-square(data-id=sexycomment._id)
+        else 
+         li
+              span.empty__message 댓글이 없서용       

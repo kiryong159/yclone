@@ -78,7 +78,7 @@ const handleEditCM = (event) => {
 
   mkform.appendChild(mktextarea);
   mkform.appendChild(submitBtn);
-  mktextarea.classList = "textarea";
+  mktextarea.classList = "edittextarea textarea";
   mktextarea.value = span.innerText;
   mktextarea.cols = 150;
   submitBtn.innerText = "Edit Comment";
