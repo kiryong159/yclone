@@ -59,9 +59,14 @@ const formatTime = (second) => {
 };
 
 const handleloadedmetadata = () => {
-  timeline.max = Math.floor(video.duration);
-  totalTime.innerText = formatTime(Math.floor(video.duration));
+  if (video.duration === NaN) {
+    handleloadedmetadata();
+  } else {
+    timeline.max = Math.floor(video.duration);
+    totalTime.innerText = formatTime(Math.floor(video.duration));
+  }
 };
+
 const handletimeupdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
   timeline.value = Math.floor(video.currentTime);
@@ -141,7 +146,7 @@ const handleEnded = () => {
 playicon.addEventListener("click", handelPlayClick);
 muteicon.addEventListener("click", handelmute);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("loadedmetadata", handleloadedmetadata);
+video.addEventListener("loadeddata", handleloadedmetadata);
 video.addEventListener("timeupdate", handletimeupdate);
 video.addEventListener("click", handelvideoclick);
 video.addEventListener("ended", handleEnded);
