@@ -67,6 +67,11 @@ const handleloadedmetadata = () => {
   }
 };
 
+const isFly = process.env.NODE_ENV === "production";
+if (isFly && video) {
+  handleloadedmetadata();
+}
+
 const handletimeupdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
   timeline.value = Math.floor(video.currentTime);
