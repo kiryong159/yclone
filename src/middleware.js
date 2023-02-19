@@ -1,6 +1,6 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
-import { S3Client } from "@aws-sdk/client-s3";
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 const s3 = new S3Client({
   region: "ap-northeast-1",
@@ -15,7 +15,7 @@ const s3ImageUploader = multerS3({
   bucket: `ggrongsyclone`,
   acl: "public-read",
   key: function (req, file, cb) {
-    const newfilename = Date.now() + "-" + file.originalname;
+    const newfilename = Date.now() + "-" + "avatar";
     const fullpath = "images/" + newfilename;
     cb(null, fullpath);
   },
@@ -32,23 +32,23 @@ const s3FileUploader = multerS3({
   },
 });
 
-export const avatardeleteMiddleware = (req, res, next) => {
+export const avatardeleteMiddleware = async (req, res, next) => {
   if (!req.file) {
+    console.log("!req.file");
     return next();
   }
-  s3.deleteObject(
-    {
-      bucket: "ggrongsyclone",
-      key: `images/${req.session.user.avatarUrl.split("/")[4]}`,
-    },
-    function (err, data) {
-      if (err) {
-        console.log("aws video delete error");
-      } else {
-        console.log("aws video delete success" + data);
-      }
-    }
-  );
+  const key = `images/${req.session.user.avatarUrl.split("/")[4]}`;
+  const params = {
+    Bucket: "ggrongsyclone",
+    Key: key,
+  };
+  try {
+    const data = await s3.send(new DeleteObjectCommand(params));
+    console.log("Success. Object deleted.", data);
+  } catch (err) {
+    console.log("Error", err);
+    return res.redirect("/user/edit");
+  }
   next();
 };
 
@@ -87,7 +87,7 @@ const isFly = process.env.NODE_ENV === "production";
 export const avatarUploadMiddleware = multer({
   dest: `uploads/avatars`,
   limits: { fileSize: 1500000 },
-  storage: isFly ? s3ImageUploader : undefined,
+  storage: s3ImageUploader,
 });
 export const videoUploadMiddleware = multer({
   dest: `uploads/videos`,

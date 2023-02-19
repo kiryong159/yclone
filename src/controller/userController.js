@@ -1,7 +1,7 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
-import Video from "../models/Video";
 
 export const getJoin = (req, res) => res.render("join", { pageTitle: "JJoin" });
 
@@ -234,6 +234,7 @@ export const postUseredit = async (req, res) => {
       return res.redirect("/");
     }
   }
+  console.log(req.session.user.avatarUrl.split("/")[4]);
   const isFly = process.env.NODE_ENV === "production";
   const updatedUser = await User.findByIdAndUpdate(
     _id,
@@ -242,7 +243,7 @@ export const postUseredit = async (req, res) => {
       name,
       username,
       email,
-      avatarUrl: file ? (isFly ? file.location : file.path) : avatarUrl,
+      avatarUrl: file ? file.location : avatarUrl,
     },
     { new: true }
   );
