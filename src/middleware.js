@@ -32,6 +32,26 @@ const s3FileUploader = multerS3({
   },
 });
 
+export const avatardeleteMiddleware = (req, res, next) => {
+  if (!req.file) {
+    return next();
+  }
+  s3.deleteObject(
+    {
+      bucket: "ggrongsyclone",
+      key: `images/${req.session.user.avatarUrl.split("/")[4]}`,
+    },
+    function (err, data) {
+      if (err) {
+        console.log("aws video delete error");
+      } else {
+        console.log("aws video delete success" + data);
+      }
+    }
+  );
+  next();
+};
+
 export const loacalsmiddelware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.siteName = "Yclone";

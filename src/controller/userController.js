@@ -249,6 +249,7 @@ export const postUseredit = async (req, res) => {
 
   req.session.user = updatedUser;
   req.flash("info", "변경 성공");
+
   return res.redirect("/");
 };
 

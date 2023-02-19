@@ -6,7 +6,7 @@ import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import Videorouter from "./routers/videoRouter";
 import Userrouter from "./routers/userRouter";
-import { loacalsmiddelware } from "./middleware";
+import { loacalsmiddelware, avatardeleteMiddleware } from "./middleware";
 import apiRouter from "./routers/apiRouter";
 
 const app = express();
@@ -45,6 +45,7 @@ app.use((req, res, next) => {
 app.use(flash());
 app.use(loacalsmiddelware);
 // pug는 res.locals와 통신할수있음 -> router 가기전에 미들웨어로 req.session값을 local과 이어주면 어디에서나 사용가능
+app.use(avatardeleteMiddleware);
 app.use("/uploads", express.static("uploads"));
 // static -> 브라우저에게 해당파일을 공개 하겠다는 뜻
 app.use("/static", express.static("assets"));
