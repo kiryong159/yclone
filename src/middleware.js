@@ -1,6 +1,6 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
-import Video from "../src/models/Video";
+import Video from "./models/Video";
 import {
   S3Client,
   DeleteObjectCommand,
