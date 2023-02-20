@@ -84,8 +84,8 @@ export const postUpload = async (req, res) => {
     const newVideo = await Video.create({
       owner: id,
       title: videoname,
-      fileUrl: isFly ? video[0].location : video[0].path,
-      thumbUrl: isFly ? thumb[0].location : thumb[0].path,
+      fileUrl: video[0].location,
+      thumbUrl: thumb[0].location,
       description,
       hashtags: Video.FormatHashtags(hashtags),
       createdAt: Date.now() + TIMEDIFF,
@@ -105,11 +105,11 @@ export const postUpload = async (req, res) => {
 export const deleteVideo = async (req, res) => {
   const id = req.params.id;
   const nowvideo = await Video.findById(id);
-  const user = await User.findById(id);
+  const user = await User.findById(nowvideo.owner);
   if (!nowvideo) {
     return res.status(404).render("404", { pageTitle: "Video Not Found" });
   }
-  if (req.session.user._id !== String(nowvideo.owner)) {
+  if (String(req.session.user._id) !== String(nowvideo.owner)) {
     console.log(
       `로그인 중인 아이디${String(req.session.user._id)}`,
       `비디오 주인${String(nowvideo.owner)}`
@@ -117,10 +117,22 @@ export const deleteVideo = async (req, res) => {
     req.flash("error", "비디오 주인이 아닙니다.");
     return res.status(403).redirect("/");
   }
+  const nowvideoId = nowvideo._id;
+
+  for (var i = 0; i < user.videos.length; i++) {
+    if (String(user.videos[i]) == String(nowvideoId)) {
+      user.videos.splice(i, 1);
+    } else {
+      console.log(false);
+    }
+  }
+
+  await user.save();
   await Video.findByIdAndDelete(id);
   req.flash("info", "삭제 완료");
+
   return res.redirect("/");
-  // 지워도 user.videos 에 남아있음
+  //지워도 user.videos 에 남아있음
 };
 
 export const search = async (req, res) => {

@@ -1,6 +1,11 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
-import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import Video from "../src/models/Video";
+import {
+  S3Client,
+  DeleteObjectCommand,
+  DeleteObjectsCommand,
+} from "@aws-sdk/client-s3";
 
 const s3 = new S3Client({
   region: "ap-northeast-1",
@@ -26,7 +31,7 @@ const s3FileUploader = multerS3({
   bucket: "ggrongsyclone",
   acl: "public-read",
   key: function (req, file, cb) {
-    const newfilename = Date.now() + "-" + file.originalname;
+    const newfilename = Date.now() + "-" + "Video";
     const fullpath = "videos/" + newfilename;
     cb(null, fullpath);
   },
@@ -48,6 +53,26 @@ export const avatardeleteMiddleware = async (req, res, next) => {
   } catch (err) {
     console.log("Error", err);
     return res.redirect("/user/edit");
+  }
+  next();
+};
+
+export const videodeleteMiddleware = async (req, res, next) => {
+  const nowvideo = await Video.findById(req.params.id);
+  console.log(nowvideo);
+  const key = `videos/${nowvideo.fileUrl.split("/")[4]}`;
+  const thumbkeyyy = `videos/${nowvideo.thumbUrl.split("/")[4]}`;
+  const params = {
+    Bucket: "ggrongsyclone",
+    Delete: { Objects: [{ Key: key }, { Key: thumbkeyyy }] },
+  };
+  console.log(params);
+  try {
+    const data = await s3.send(new DeleteObjectsCommand(params));
+    console.log("Success. Object deleted.", data);
+  } catch (err) {
+    console.log("Error", err);
+    return res.redirect("/");
   }
   next();
 };
@@ -83,7 +108,7 @@ export const PublicMiddleware = (req, res, next) => {
 
 const isFly = process.env.NODE_ENV === "production";
 // process.env.NODE_ENV 는  fly heroku 같은 웹사이트에서만 production 상태이기때문에 웹에있는지 로컬에있는지 확인이 가능함
-
+//storage: isFly ? s3FileUploader : undefined, 이런식으로 사용
 export const avatarUploadMiddleware = multer({
   dest: `uploads/avatars`,
   limits: { fileSize: 1500000 },
@@ -92,5 +117,5 @@ export const avatarUploadMiddleware = multer({
 export const videoUploadMiddleware = multer({
   dest: `uploads/videos`,
   limits: { fileSize: 10000000 },
-  storage: isFly ? s3FileUploader : undefined,
+  storage: s3FileUploader,
 });
