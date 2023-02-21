@@ -196,6 +196,15 @@ export const CommentDelete = async (req, res) => {
     return res.sendStatus(404);
   }
   const video = await Video.findById(id);
+  const videoComment = video.Comment;
+  for (var i = 0; i < videoComment.length; i++) {
+    if (String(videoComment[i]) === String(CommentId)) {
+      video.Comment.splice(i, 1);
+    } else {
+      console.log("false");
+    }
+  }
+  await video.save();
   await Comment.findByIdAndDelete(CommentId);
   return res.sendStatus(200);
 };

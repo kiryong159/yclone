@@ -42,31 +42,34 @@ export const avatardeleteMiddleware = async (req, res, next) => {
     console.log("!req.file");
     return next();
   }
-  const key = `images/${req.session.user.avatarUrl.split("/")[4]}`;
-  const params = {
-    Bucket: "ggrongsyclone",
-    Key: key,
-  };
-  try {
-    const data = await s3.send(new DeleteObjectCommand(params));
-    console.log("Success. Object deleted.", data);
-  } catch (err) {
-    console.log("Error", err);
-    return res.redirect("/user/edit");
+  if (req.session.user.avatarUrl === "") {
+    console.log("avatarUrl = null ");
+    return next();
+  } else {
+    try {
+      const key = `images/${req.session.user.avatarUrl.split("/")[4]}`;
+      const params = {
+        Bucket: "ggrongsyclone",
+        Key: key,
+      };
+      const data = await s3.send(new DeleteObjectCommand(params));
+      console.log("Success. Object deleted.", data);
+    } catch (err) {
+      console.log("Error", err);
+      return res.redirect("/user/edit");
+    }
+    next();
   }
-  next();
 };
 
 export const videodeleteMiddleware = async (req, res, next) => {
   const nowvideo = await Video.findById(req.params.id);
-  console.log(nowvideo);
   const key = `videos/${nowvideo.fileUrl.split("/")[4]}`;
   const thumbkeyyy = `videos/${nowvideo.thumbUrl.split("/")[4]}`;
   const params = {
     Bucket: "ggrongsyclone",
     Delete: { Objects: [{ Key: key }, { Key: thumbkeyyy }] },
   };
-  console.log(params);
   try {
     const data = await s3.send(new DeleteObjectsCommand(params));
     console.log("Success. Object deleted.", data);

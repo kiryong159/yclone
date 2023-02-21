@@ -234,7 +234,6 @@ export const postUseredit = async (req, res) => {
       return res.redirect("/");
     }
   }
-  console.log(req.session.user.avatarUrl.split("/")[4]);
   const isFly = process.env.NODE_ENV === "production";
   const updatedUser = await User.findByIdAndUpdate(
     _id,
