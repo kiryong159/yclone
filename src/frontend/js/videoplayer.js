@@ -158,7 +158,11 @@ const handleEnded = () => {
 playicon.addEventListener("click", handelPlayClick);
 muteicon.addEventListener("click", handelmute);
 volumeRange.addEventListener("input", handleVolumeChange);
-video.addEventListener("loadeddata", handleloadedmetadata);
+
+video.readyState
+  ? handleloadedmetadata()
+  : video.addEventListener("loadeddata", handleloadedmetadata);
+
 video.addEventListener("timeupdate", handletimeupdate);
 video.addEventListener("click", handelvideoclick);
 video.addEventListener("ended", handleEnded);

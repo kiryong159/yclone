@@ -286,6 +286,7 @@ export const postChangePW = async (req, res) => {
   // 만약 위에서 user.password를 사용하지않고 session에서 찾은 password를 사용했다면
   // 밑에서 req.session.user.password = newpw 같이 업데이트를 해줘야 바뀜
   // 비밀번호 변경후 로그아웃으로 보내버리면 session을 파괴해서 상관없는듯??
+  // findbyid update 하면 "pre" save가 작동안해서 일케하는듯.
   return res.redirect("/");
 };
 
